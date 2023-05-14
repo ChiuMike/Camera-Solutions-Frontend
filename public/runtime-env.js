@@ -1,0 +1,1 @@
+window.__RUNTIME_CONFIG__ = {"NODE_ENV":"development","REACT_APP_BUILD":"development","REACT_APP_BASE_URL":"http://localhost:8080/","REACT_APP_SIGNIN":"api/v1/auth/signin","REACT_APP_SIGNOUT":"api/v1/auth/signout","REACT_APP_USER":"api/v1/tenant"};

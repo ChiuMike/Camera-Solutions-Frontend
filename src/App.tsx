@@ -1,26 +1,60 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import * as MUI from "@mui/material";
+import * as React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import GlobalThemeColor from './theme/GlobalThemeColor';
+import Navbar from './components/navbar/Navbar';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+
+    const [mode, setMode] = React.useState<MUI.PaletteMode>('light');
+    const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+    const bgMode = MUI.createTheme(GlobalThemeColor(mode));
+
+    const handleChangeTheme = () => {
+        setMode(mode === 'light' ? 'dark' : 'light');
+        if (mode === 'light') {
+            setMode('dark');
+            localStorage.setItem("mode", 'dark');
+        } else {
+            setMode('light');
+            localStorage.setItem("mode", 'light');
+        }
+    }
+
+    React.useEffect(() => {
+
+        const themeMode = localStorage.getItem('mode');
+
+        if (themeMode) {
+            themeMode === "light" ? setMode("light") : setMode('dark');
+        } else {
+            setMode("light");
+            localStorage.setItem("mode", 'light');
+        }
+        
+    }, [])
+
+    return (
+        <Router>
+            <MUI.ThemeProvider theme={bgMode}>
+                <Switch>
+                    <Route
+                        path="/"
+                        render={() => (
+                            <Navbar 
+                                themeMode={mode} 
+                                handleChangeTheme={handleChangeTheme}
+                                drawerOpen={drawerOpen}
+                                setDrawerOpen={setDrawerOpen}
+                            />
+                        )}
+                    />
+                </Switch>
+            </MUI.ThemeProvider>
+        </Router>
+    );
 }
 
 export default App;
