@@ -18,13 +18,10 @@ export const SetSidebarIcon: React.FC<IIcon> = (props) => {
 		case "Dashboard": {   
 			return <MuiIcons.Dashboard/>;
 		}
-        case "Devices": {
-            return <MuiIcons.Devices />;
-        }
         case "Group": {
             return <MuiIcons.Group />
         }
-        case "Devices List": {
+        case "Devices": {
             return <MuiIcons.CameraRear />
         }
         case "Users": {

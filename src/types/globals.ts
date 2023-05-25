@@ -9,6 +9,8 @@ declare global {
       REACT_APP_SIGNIN: string;
       REACT_APP_SIGNOUT: string;
       REACT_APP_USER: string;
+      REACT_APP_DEVICES: string;
+      REACT_APP_DEVICES_GPS: string;
     };
   }
 }

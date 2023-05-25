@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosInstance } from "axios";
 import { Method } from "axios";
 
 export const REQUEST_METHOD: Method = 'get';

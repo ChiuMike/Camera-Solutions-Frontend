@@ -2,29 +2,26 @@ import "@mui/material/styles/createPalette";
 declare module "@mui/material/styles/createPalette" {
   interface TypeBackground {
     appBar: string;
-    controllerContainer: string;
     formButton: string;
     formButtonText: string;
     confirmButton: string;
+    cancelButton: string;
     sidebarOpen: string;
     sidebarClose: string;
     tableBackground: string;
     tableHeader: string;
     tableRow: string;
-    video: string;
+    avatar_2: string;
     dateRecord: string;
-    datePicker: string;
     navigation: string;
-    pttBg: string;
-    loadingspinner: string;
     drawerBtn: string;
-    borderColor: string;
-    responsiveTabs: string;
-    tabContent: string;
+    search: string;
     primary: string;
     secondary: string;
     third: string;
-    tableSearch: string;
+    red_1: string;
+    red_2: string;
+    red_3: string;
   }
 
   interface TypeText {

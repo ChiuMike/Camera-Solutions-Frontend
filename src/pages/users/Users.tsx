@@ -9,6 +9,7 @@ import { UsersHeadCell } from '../../components/table/TableHeadCells';
 import UserForm from './UserForm';
 import Navigation from '../../components/navigation/Navigation';
 import ErrorBar from '../../components/helpers/ErrorBar';
+import { PageMainBox } from '../Global.styles';
 
 const Users: React.FC = () => {
 
@@ -30,8 +31,8 @@ const Users: React.FC = () => {
 	}, [])
 
     return (
-        <MUI.Box component="main" sx={{ flexGrow: 1, padding: '16px 32px'}}>
-            <ErrorBar error={error} setError={setError}/>
+        <PageMainBox component="main">
+            <ErrorBar error={error} setError={setError} lockedMessage={"You can't delete admin user"} />
             <DrawerHeader />
             <Navigation pageTitle={"WiBASE"}/>
             <Table
@@ -49,7 +50,7 @@ const Users: React.FC = () => {
 				loading={loading}
 				maxWidth={'sm'}
 			/>
-        </MUI.Box>
+        </PageMainBox>
     )
 
 };

@@ -137,6 +137,11 @@ const Table: FC<TableContainerProps> = (props) => {
                         },
                     ]
                 }
+                // detailPanel={({ rowData }) => {
+                //     return (
+                //         <span>dasdsad</span>
+                //     );
+                // }}
                 components={{
                     Toolbar: useCallback((actionDataProps: any) => {
                         return (
@@ -144,8 +149,6 @@ const Table: FC<TableContainerProps> = (props) => {
                                 <MUI.Stack 
                                     className="btn-stack"
                                     direction={'row'} 
-                                    sx={{marginLeft: '16px'}}
-                                    alignItems={'center'}
                                     spacing={rowData !== undefined ? 2 : 0}
                                 >
                                     {rowData !== undefined && <StyledTitle sx={{fontSize: '32px', margin: '0px' }}>{rowData.rowData.name}</StyledTitle>}

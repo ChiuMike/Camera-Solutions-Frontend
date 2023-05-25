@@ -25,7 +25,9 @@ export const useAxios = <T>(callback?: callbackProps<T>) => {
             const { data } = await axiosInstance.request<T>({
 				...options
 			});
+
             setData(data);
+
             if(data) {
 				callback?.onSuccess(data);
 			}
@@ -48,10 +50,13 @@ export const useAxios = <T>(callback?: callbackProps<T>) => {
             }
 
             if (axios.isAxiosError(error)) {
+
 				const serverError = error as AxiosError;
+
 				if (serverError && serverError.response) {
 					setError(serverError.response.status);
 				}
+
 			} else {
 				const generalError = error as Error;
 				setError(generalError);

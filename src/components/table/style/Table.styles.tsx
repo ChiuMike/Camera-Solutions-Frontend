@@ -5,17 +5,32 @@ export const TableMainBox = MUI.styled(MUI.Box, { shouldForwardProp: (prop) => p
     "& .MuiPaper-root": {
         backgroundColor: theme.palette.background.paper,
         width: '100%',
-        overflow: 'scroll', 
+        overflowX: 'hidden', 
         flex: 1, 
         borderRadius: 15,
         boxShadow: 'rgba(33, 35, 38, 0.1) 0px 10px 10px -10px',
         border: 'none',
+        [theme.breakpoints.down("sm")]: {
+            borderRadius: 10,
+            boxShadow: 'none'
+        }
     },
     "& .header-toolbar" :{
         display: "flex",
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: loading ? '0px' : '10px 0px 5px 0px',
+        "& .btn-stack": {
+            marginLeft: '16px',
+            alignItems: 'center',
+        },
+        [theme.breakpoints.down("extraSmallMobile")]: {
+            flexDirection: 'column',
+            alignItems: 'start',
+            "& .btn-stack": {
+                marginLeft: '24px',
+            },
+        }
     },
     "& .MuiToolbar-root" : {
         "& .MuiFormControl-root" : {
@@ -44,7 +59,10 @@ export const TableMainBox = MUI.styled(MUI.Box, { shouldForwardProp: (prop) => p
                 color: "#02759F",
                 transform: 'scale(1.1)'
             }
-        }    
+        },
+        [theme.breakpoints.down("extraSmallMobile")]: {
+            padding: '0px'
+        }   
     },
     "& .MuiTableHead-root": {
         width: '500px',
@@ -69,6 +87,9 @@ export const TableMainBox = MUI.styled(MUI.Box, { shouldForwardProp: (prop) => p
         fontSize: '14px',
         backgroundColor: theme.palette.background.paper,
         borderBottom: theme.palette.mode === 'light' ? `5px solid ${theme.palette.background.default}` : '0.1px solid #FFF',
+        "&:hover" : {
+            backgroundColor: "#e6f1f5 !important",
+        },
         '&:last-of-type': {
             borderBottom: 'none'
         },

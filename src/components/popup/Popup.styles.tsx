@@ -1,6 +1,5 @@
 import * as MUI from "@mui/material";
 import { makeStyles } from '@mui/styles';
-import CloseIcon from '@mui/icons-material/Close';
 
 export const popupStyles = makeStyles((theme: MUI.Theme) => ({
     dialog: {
@@ -11,6 +10,9 @@ export const popupStyles = makeStyles((theme: MUI.Theme) => ({
         color:' #FFF',
         textAlign: 'center',
         padding: '30px 10px',
+        [theme.breakpoints.down("smallMobile")]: {
+            minWidth: '300px',
+        }
     },
     confirm: {
         backgroundColor: '#00bcd4',
@@ -22,14 +24,40 @@ export const popupStyles = makeStyles((theme: MUI.Theme) => ({
         cursor: 'pointer',
     },
     cancel: {
-        backgroundColor: '#ff5252',
+        backgroundColor: theme.palette.background.red_2,
         borderRadius: '20px',
         color: '#FFF',
         border: '0',
         padding: '0.35rem 2.5rem',
         margin: '0.5rem',
         cursor: 'pointer',
-    }
+    },
+    sosDialog: {
+        width: '25%',
+        minWidth: '350px',
+        maxWidth: '380px',
+        backgroundColor: theme.palette.background.red_3,
+        color:' #FFF',
+        textAlign: 'center',
+        padding: '30px 10px',
+        "& .btn": {
+            backgroundColor: theme.palette.background.red_2,
+            borderRadius: '20px',
+            color: '#FFF',
+            padding: '0.35rem 2.5rem',
+            margin: '1rem 0.5rem 0.5rem 0.5rem',
+            cursor: 'pointer',
+            maxWidth: '250px',
+            '&:hover': {
+                backgroundColor: theme.palette.background.red_1,
+                transition: 'all 0.3s linear',
+                transform: 'translate(0px, 2px)',
+            }
+        },
+        [theme.breakpoints.down("smallMobile")]: {
+            minWidth: '300px',
+        }
+    },
 }))
 
 export const ConfirmButton = MUI.styled(MUI.Button)<MUI.ButtonProps>(({theme}) => ({
@@ -49,7 +77,7 @@ export const ConfirmButton = MUI.styled(MUI.Button)<MUI.ButtonProps>(({theme}) =
 }));
 
 export const CancelButton = MUI.styled(MUI.Button)<MUI.ButtonProps>(({theme}) => ({
-    backgroundColor: '#c24242',
+    backgroundColor: theme.palette.background.red_1,
     borderRadius: '20px',
     color: '#FFF',
     border: '0',
@@ -58,7 +86,7 @@ export const CancelButton = MUI.styled(MUI.Button)<MUI.ButtonProps>(({theme}) =>
     cursor: 'pointer',
     maxWidth: '110px',
     '&:hover': {
-        backgroundColor: '#ff5252',
+        backgroundColor: theme.palette.background.red_2,
         transition: 'all 0.3s linear',
         transform: 'translate(0px, 2px)',
     }
