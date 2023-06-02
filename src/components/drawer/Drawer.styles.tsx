@@ -2,7 +2,6 @@ import * as MUI from "@mui/material";
 
 const drawerWidth = 210;
 const closeDrawerWidth = 57;
-const subDrawerWidth = 220;
 
 export const DrawerButton = MUI.styled(MUI.Box)<MUI.BoxProps>(({theme}) =>({ 
     fontSize: '16px',

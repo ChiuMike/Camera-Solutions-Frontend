@@ -1,21 +1,18 @@
 import * as MUI from "@mui/material";
 import { MutableRefObject, FC, useState, useEffect, useContext, useRef} from "react";
-import "leaflet/dist/leaflet.css";
 import * as L from 'leaflet';
 import ReactDOMServer from 'react-dom/server';
 import { useMap } from "react-leaflet";
 import { IMapDevice } from "../../../apis/geolocation";
-import "../style/map.css";
 import { MarkerIcon } from "../style/DeviceMap.styles";
 import * as MuiIcons from "@mui/icons-material/";
 import 'leaflet.markercluster';
-import { CancelButton,} from "../../../components/popup/Popup.styles";
+import { CancelButton } from "../../../components/popup/Popup.styles";
 import { DeviceMapContext, IDeviceMapState } from "../provider/DeviceMapProvider";
 import { clusterIconLogic, videos } from "../helper/MapHelper";
  
 interface MarkerBaseProps {
     mapDevices: IMapDevice[];
-    clusterColor: string;
     previousViweRef: MutableRefObject<L.LatLngExpression | undefined>
     MarkerMountedRef: React.MutableRefObject<boolean>;
     previousZoomRef: MutableRefObject<number | undefined>;

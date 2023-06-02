@@ -100,6 +100,7 @@ const Navbar: React.FC<NavbarBaseProps> = ({themeMode, handleChangeTheme, setDra
                                         key={index}
                                         path={route.path}
                                         component={route.component}
+                                        drawerOpen={drawerOpen}
                                         exact
                                     />
                                 );

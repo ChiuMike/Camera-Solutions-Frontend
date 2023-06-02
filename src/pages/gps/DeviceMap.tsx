@@ -12,39 +12,6 @@ import { useAxios } from "../../hooks/useAxios";
 import { ApiUrl, ReadIotDevicesResponse } from "../../apis/device";
 import { RequestMethod } from "../../apis/Api";
 
-// const mapDevices: IMapDevice[] = [
-//     {
-//         device: "Camera_001",
-//         geolocation: [
-//             {
-//                 lat: "25.05833537587345",
-//                 lng: "121.6119958721099",
-//                 update_time: "2023/5/20 11:00"
-//             }
-//         ]
-//     },
-//     {
-//         device: "Camera_002",
-//         geolocation: [
-//             {
-//                 lat: "25.078913526642317",
-//                 lng: "121.57462624146225",
-//                 update_time: "2023/5/20 10:30"
-//             }
-//         ]
-//     },
-//     {
-//         device: "Camera_003",
-//         geolocation: [
-//             {
-//                 lat: "25.053762381760105",
-//                 lng: "121.57829343163714",
-//                 update_time: "2023/5/20 10:30"
-//             }
-//         ]
-//     }
-// ]
-
 const DeviceMap = () => {
 
     const MarkerMountedRef = useRef(false);
@@ -57,11 +24,11 @@ const DeviceMap = () => {
         onSuccess: (response) => {
             if (response !== undefined) {
                 let gpsDevices: string[] = [];
-                response.data.forEach((device) => {
+                response.data.filter((data) => data.connection).forEach((device) => {
                     gpsDevices.push(device.name)
                 })
 
-                if(gpsDevices.length > 0) {
+                if (gpsDevices.length > 0) {
                     getDevicesGPS({
                         url: GPSUrl.getDevicesGPS(),
                         method: RequestMethod.POST,
@@ -88,7 +55,6 @@ const DeviceMap = () => {
                 <MapContainer
                     className="markercluster-map"
                     zoom={15}
-                    center={[25.057471865158753, 121.61191097326105]}
                     style={{height:'100%'}}
                     zoomControl={false}
                 >   
@@ -101,7 +67,6 @@ const DeviceMap = () => {
                     />
                     <Marker 
                         mapDevices={mapDevices ? mapDevices.data : []} 
-                        clusterColor={"cluster-red"}
                         previousViweRef={previousViweRef}
                         MarkerMountedRef={MarkerMountedRef}
                         previousZoomRef={previousZoomRef}

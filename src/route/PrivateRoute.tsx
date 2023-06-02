@@ -3,9 +3,10 @@ import * as React from "react";
 
 interface IPrivateRoute extends RouteProps {
     component: React.ComponentType<any>;
+    drawerOpen: boolean;
     title?: string;
 }
-const PrivateRoute: React.FC<IPrivateRoute> = ({ component: Component, ...routeProps }) => {
+const PrivateRoute: React.FC<IPrivateRoute> = ({ component: Component, drawerOpen, ...routeProps }) => {
 
     const { path } = routeProps;
 
@@ -15,7 +16,7 @@ const PrivateRoute: React.FC<IPrivateRoute> = ({ component: Component, ...routeP
     }
 
     return <Route path={path} render={() => {
-        return <Component {...routeProps} />
+        return <Component {...routeProps} drawerOpen={drawerOpen} />
     }}/>
 };
 

@@ -60,6 +60,7 @@ const GlobalThemeColor = (mode: MUI.PaletteMode) => ({
                 navigation: '#02759F',
                 search: '#00bcd4',
                 avatar_2: '#00bcd4',
+                route: '#243B70'
             },
             divider: MUI.colors.grey[300],
             text: {
@@ -78,13 +79,13 @@ const GlobalThemeColor = (mode: MUI.PaletteMode) => ({
                 pttText: '#FFF',
             },
             action: {
-                // active: '#FFF',
                 selected: '#02759F',
                 tabSelected: '#FFF',
                 selectedOpacity: 0.75,
                 hover: '#00bcd4',
                 confirmButtonHover: '#0090a2',
-                hoverOpacity: 0.04
+                hoverOpacity: 0.04,
+                gpsSearchHover: "#f5f5f5",
             },
         }
         :
@@ -122,6 +123,7 @@ const GlobalThemeColor = (mode: MUI.PaletteMode) => ({
                 navigation: '#FFF',
                 search: '#4fd4ca',
                 avatar_2: '#4fd4ca',
+                route: '#FFF'
             },
             divider: 'rgba(255, 255, 255, 0.12)',
             text: {
@@ -143,7 +145,8 @@ const GlobalThemeColor = (mode: MUI.PaletteMode) => ({
                 selectedOpacity: 0.75,
                 hover: '#a5d6a7',
                 hoverOpacity: 0.04,
-                confirmButtonHover: '#69f0ae'
+                confirmButtonHover: '#69f0ae',
+                gpsSearchHover: "#a5d6a7"
             }
         }
       ),

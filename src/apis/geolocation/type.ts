@@ -8,15 +8,13 @@ export interface IPosition {
     update_time: string;
 }
 
-export interface IStandingPosition {
-    lng?: string;
-    lat?: string;
-    standingTimeStart?: string;
-    standingTimeEnd?: string;
-}
-
 export type IMapDevice = {
     device: IDeviceDto;
+    geolocation: IPosition[];
+}
+
+export type IHistoryDevice = {
+    device: string;
     geolocation: IPosition[];
 }
 
@@ -25,5 +23,5 @@ export interface GetDevicesMapResponse extends Common {
 }
 
 export interface GetDeviceHistoryTrackResponse extends Common {
-    data: IMapDevice
+    data: IHistoryDevice
 }

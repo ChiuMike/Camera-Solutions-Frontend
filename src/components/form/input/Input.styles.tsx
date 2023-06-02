@@ -52,7 +52,7 @@ export const RoundedTextField = MUI.styled(MUI.TextField)<MUI.TextFieldProps>(({
 
 export const Search = MUI.styled(MUI.Box)(({ theme }) => ({
     width: '80%',
-    padding: '0 10px 10px 10px',
+    padding: '0px',
     fontSize: '10px',
     paddingRight: 0
 }));
@@ -63,14 +63,14 @@ export const StyledInputBase = MUI.styled(MUI.InputBase)(({ theme }) => ({
     height: '35px',
     borderRadius: '25px 0 0 25px',
     width: '100%',
-    border: `2px solid ${theme.palette.background.search}`,
+    border: `2px solid ${theme.palette.background.primary}`,
 }));
 
 export const SearchButton = MUI.styled(MUI.IconButton)<MUI.IconButtonProps>(({theme}) => ({
     width: '40px',
     height: '35px',
-    border: `2px solid ${theme.palette.background.search}`,
-    background: theme.palette.background.search,
+    border: `2px solid ${theme.palette.background.primary}`,
+    background: theme.palette.background.primary,
     textAlign: 'center',
     color: '#fff',
     borderRadius: '0 25px 25px 0',

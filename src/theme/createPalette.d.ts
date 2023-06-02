@@ -22,6 +22,7 @@ declare module "@mui/material/styles/createPalette" {
     red_1: string;
     red_2: string;
     red_3: string;
+    route: string;
   }
 
   interface TypeText {
@@ -46,6 +47,7 @@ declare module "@mui/material/styles/createPalette" {
   interface TypeAction {
     confirmButtonHover: string;
     tabSelected: string;
+    gpsSearchHover: string;
   }
 }
 

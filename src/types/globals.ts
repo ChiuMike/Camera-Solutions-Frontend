@@ -11,6 +11,7 @@ declare global {
       REACT_APP_USER: string;
       REACT_APP_DEVICES: string;
       REACT_APP_DEVICES_GPS: string;
+      REACT_APP_DEVICE_HISTORY_GPS: string;
     };
   }
 }

@@ -1,9 +1,6 @@
 import * as MUI from "@mui/material";
 import { useEffect, FC, useState } from "react";
-import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import 'leaflet-routing-machine';
-import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import * as MuiIcons from "@mui/icons-material/";
 import { useMap } from "react-leaflet";
 import Control from 'react-leaflet-custom-control';
@@ -46,9 +43,9 @@ const MapsControls: FC<MapControlBaseProps> = ({mapDevices}) => {
         <SosPopup open={isOpenSos} setOpen={setOpenSos} setSos={setSos} />
         <Control 
             position="topright"
-            style={{border: 'none', display: 'flex', }}
+            style={{border: 'none', display: 'flex',}}
         >
-            <SearchCollapse isOpenSearch={isOpenSearch} sos={sos} mapDevices={mapDevices} />
+            <SearchCollapse isOpenSearch={isOpenSearch} mapDevices={mapDevices} />
             <MUI.Box sx={{display: 'flex', flexDirection: "column", gap: "16px", marginTop: '50px'}}>
                 <MUI.Tooltip title="SEARCH" placement="left">
                     <MapButton onClick={handleSearch} open={isOpenSearch} btnColor={"#00bcd4"}>

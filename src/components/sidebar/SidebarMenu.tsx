@@ -3,7 +3,6 @@ import * as React from "react";
 import { Link, useLocation } from "react-router-dom";
 import * as MuiIcons from "@mui/icons-material";
 import { IIcon, ISidebarMenu, sidebarImages, sidebarDevices } from "./sidebarList";
-import ExpandableItem from "./ExpandableItem";
 import { SidebarSubheader } from "./Sidebar.styles";
 
 export interface SidebarBaseProps {
@@ -71,7 +70,7 @@ const SidebarMenu: React.FC<SidebarBaseProps> = ({drawerOpen: open, setDrawerOpe
                         selected={params.pathname.includes("/dashboard") }
                     >
                         <MUI.ListItemIcon>
-                            <SetSidebarIcon name={"Dashboard"} />
+                            <SetSidebarIcon name={"Dashboard"}/>
                         </MUI.ListItemIcon>
                         <MUI.ListItemText>Dashboard</MUI.ListItemText>
                     </MUI.ListItemButton>

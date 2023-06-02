@@ -15,6 +15,7 @@ export const DeviceMapContext = React.createContext<IDeviceMapState | null>(null
 const DeviceMapProvider: React.FC<IProviderProps> = ({children}) => {
 
     const [selectedIndex, setSelectedIndex] = React.useState<number[]>([-1]);
+    
     const [selectedPos, setSelectedPos] = useState<IPosition>({
         lat: '',
         lng: '',

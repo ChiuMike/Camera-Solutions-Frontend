@@ -12,3 +12,8 @@ export const SidebarSubheader = MUI.styled(MUI.ListSubheader, { shouldForwardPro
             duration: theme.transitions.duration.enteringScreen,
         }),
 }));
+
+export const ListItemIcon = MUI.styled(MUI.ListItemIcon, { shouldForwardProp: (prop) => prop !== 'selected', })<{selected: boolean}>(
+    ({ theme, selected }) => ({
+        color: selected ? "#FFF" : '#616161'
+}));

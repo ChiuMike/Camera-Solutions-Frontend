@@ -50,29 +50,39 @@ export const MapButton =  MUI.styled(MUI.IconButton, {shouldForwardProp: (prop) 
         }
 }));
 
-export const SearchCard = MUI.styled(MUI.Card)<MUI.CardProps>(({theme}) => ({
+export const SearchCollapseCard = MUI.styled(MUI.Card)<MUI.CardProps>(({theme}) => ({
     height: 'auto',
-    maxHeight: '70%',
-    marginTop: '64px', 
-    width: '320px', 
+    marginTop: '64px',
+    maxWidth: '400px',
+    minWidth: '300px', 
     marginRight: '12px', 
     borderRadius: '0.5rem', 
     boxShadow: '0 1px 20px 0 rgb(90 90 100 / 50%)',
-    padding: '20px 10px',
-    "& .MuiAvatar-root": {
-        backgroundColor: theme.palette.background.avatar_2,
-    },
-    "& .sos": {
-        animation: 'sos 1.5s alternate infinite ease-in',
-    },
-    "@keyframes sos" :{
-        '0%': {
-            transform: "scale(1)"
-        },
-        "100%": {
-            transform: "scale(1.3)"
+    "& .MuiCardHeader-root": {
+        boxShadow: '0px 15px 15px -14px rgb(90 90 100 / 50%)',
+        borderBottomRightRadius: '28px',
+        borderBottomLeftRadius: '28px',
+        "& .MuiCardHeader-title": {
+            fontWeight: 800,
         }
-    }
+    },
+    "& .MuiCardContent-root": {
+        padding: 0,
+        maxHeight: '400px',
+        overflow: 'auto',
+        margin: '10px 0px 10px 0px',
+        "& .MuiListItemText-primary": {
+            fontWeight: 800,
+        },
+        "& .MuiListItemButton-root": {
+            "&:hover": {
+                background: theme.palette.action.gpsSearchHover,
+            },
+            "& .locate": {
+                color: theme.palette.background.route,
+            }
+        }
+    },
 }));
 
 export const UpdateDrawer = MUI.styled(MUI.Drawer)<MUI.DrawerProps>(({theme}) => ({

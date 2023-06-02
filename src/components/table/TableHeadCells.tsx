@@ -83,7 +83,7 @@ export const iotDeviceHeadCells: Column<IRowData>[] = [
             if ((row as IDeviceDto).battery === "none") {
                 return (
                     <MUI.Box sx={{width: '80px', display: 'flex', justifyContent: 'center'}}>
-                        <MuiIcons.BatteryUnknown fontSize="large" sx={{color: '#c24242'}}/>
+                        <MuiIcons.BatteryUnknown fontSize="large" sx={{color: 'hsl(54, 89%, 46%)'}}/>
                     </MUI.Box>
                 )
             }
@@ -91,12 +91,21 @@ export const iotDeviceHeadCells: Column<IRowData>[] = [
                 <>
                 {(row as IDeviceDto).battery === "low" ?
                     <MUI.Box sx={{width: '80px', display: 'flex', justifyContent: 'center'}}>
-                        <MuiIcons.Battery20 sx={{color: '#c24242'}} fontSize="large"/>
+                        <MuiIcons.Battery20 sx={{color: 'hsl(54, 89%, 46%)'}} fontSize="large"/>
                     </MUI.Box>
                     :
-                    <MUI.Box sx={{width: '80px', display: 'flex', justifyContent: 'center'}}>
-                        <MuiIcons.Battery80 sx={{color: '#00bcd4'}} fontSize="large"/>
-                    </MUI.Box>
+                    <>
+                    {(row as IDeviceDto).battery === "medium" ? 
+                        <MUI.Box sx={{width: '80px', display: 'flex', justifyContent: 'center'}}>
+                            <MuiIcons.Battery80 sx={{color: '#118bee'}} fontSize="large"/>
+                        </MUI.Box>
+                        :
+                        <MUI.Box sx={{width: '80px', display: 'flex', justifyContent: 'center'}}>
+                            <MuiIcons.Battery50 sx={{color: 'hsl(22, 89%, 46%)'}} fontSize="large"/>
+                        </MUI.Box>
+                    }
+                    
+                    </>
                 }
                 </>
             )
