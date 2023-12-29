@@ -1,10 +1,9 @@
-import { SetStateAction, Dispatch } from 'react';
 import { popupStyles, ConfirmButton, CancelButton} from './Popup.styles';
 import * as MuiIcons from "@mui/icons-material/";
 import * as MUI from "@mui/material";
 
 export interface IConfirmPopup<T> {
-    setConfirmOpen: Dispatch<SetStateAction<boolean>>
+    handleConfirmOpen: () => void;
     confirmOpen: boolean;
     handleDelete: (dataSelected: T[]) => void;
     dataSelected: T[];
@@ -12,18 +11,14 @@ export interface IConfirmPopup<T> {
 
 const DeleteConfirmPopup = <T extends unknown> (props: IConfirmPopup<T>) => {
 
-    const { confirmOpen, setConfirmOpen, handleDelete, dataSelected } = props;
+    const { confirmOpen, handleConfirmOpen, handleDelete, dataSelected } = props;
 
     const classes = popupStyles();
-
-    const handleClose = () => {
-        setConfirmOpen(false);
-    };
     
     return (
         <MUI.Dialog
             open={confirmOpen}
-            onClose={handleClose}
+            onClose={handleConfirmOpen}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
@@ -34,7 +29,7 @@ const DeleteConfirmPopup = <T extends unknown> (props: IConfirmPopup<T>) => {
                     <p>Are you sure you want to delete?</p>
                     <MUI.Box className="form-btn">
                         <ConfirmButton onClick={()=>handleDelete(dataSelected)}>Yes</ConfirmButton>
-                        <CancelButton onClick={handleClose}>Cancel</CancelButton>
+                        <CancelButton onClick={handleConfirmOpen}>Cancel</CancelButton>
                     </MUI.Box>
                 </MUI.Box>
             </MUI.Box>

@@ -55,7 +55,7 @@ const ControllerContainer = <T extends unknown> (props: IControllerContainer<T>)
     return (
         <>
             <DeleteConfirmPopup
-                setConfirmOpen={setConfirmOpen} 
+                handleConfirmOpen={handleDeleteConfirm} 
                 confirmOpen={confirmOpen}
                 handleDelete={(dataSelected) => handleDelete(dataSelected as T[])}
                 dataSelected={dataSelected}
@@ -74,7 +74,7 @@ const ControllerContainer = <T extends unknown> (props: IControllerContainer<T>)
                     variant="contained" 
                     endIcon={<MuiIcons.AddCircle />}
                     onClick={handleClickOpen}
-                    sx={{borderRadius: '20px', marginRight: '16px'}}
+                    sx={{borderRadius: '20px', marginRight: '16px', backgroundColor: '#02759F'}}
                 >
                     New
                 </MUI.Button>

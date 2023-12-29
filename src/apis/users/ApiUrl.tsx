@@ -12,4 +12,9 @@ export class ApiUrl {
         return `${window.__RUNTIME_CONFIG__.REACT_APP_USER}/user/${userUUID}`;
     }
 
+    public static readUserDetail(userUUID: string) {
+        return `${window.__RUNTIME_CONFIG__.REACT_APP_USER}/user/${userUUID}`;
+    }
+
+
 }

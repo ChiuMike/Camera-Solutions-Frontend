@@ -46,3 +46,16 @@ export const SubmitButton = MUI.styled(MUI.Button, {
             maxWidth: '120px',
         }
 }));
+
+export const MapStateButton = MUI.styled(MUI.Chip)<MUI.ChipProps>(({theme}) => ({
+    backgroundColor: "#4fd4ca",
+    color: "#fff",
+    fontWeight: 900,
+    borderRadius: '5px',
+    height: '35px',
+    fontSize: '14px',
+    boxShadow: 'rgba(0, 0, 0, 0.15) 2px 2.5px 5px',
+    "& .MuiSvgIcon-root": {
+        color: "#fff",
+    }
+}));

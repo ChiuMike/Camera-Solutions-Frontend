@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosInstance } from "axios";
 import { Method } from "axios";
 
 export const REQUEST_METHOD: Method = 'get';
-export const defaultBaseUrl = "http://localhost:8080/";
+export const defaultBaseUrl = "http://localhost:8082/";
 export const DEVELOPMENT = "development";
 export const PRODUCTION = "production";
 export const domain = window.location.host;
@@ -34,7 +34,6 @@ let axiosInstance: AxiosInstance;
 let baseURL: string;
 
 if (BUILD === DEVELOPMENT) {
-    console.log("in development");
     baseURL = `${window.__RUNTIME_CONFIG__.REACT_APP_BASE_URL}`;
 } else {
     if (`${window.__RUNTIME_CONFIG__.REACT_APP_BASE_URL}` === defaultBaseUrl) {

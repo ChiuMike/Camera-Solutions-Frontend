@@ -1,5 +1,5 @@
 import { ApiUrl } from "./ApiUrl";
-import { IUserDto, ReadUsersResponse, AddUserResponse, } from "./type";
+import { IUserDto, ReadUsersResponse, AddUserResponse, UserDetailDto, ReadUserDetailResponse} from "./type";
 
 export {
     ApiUrl,
@@ -8,5 +8,7 @@ export {
 export type {
     ReadUsersResponse,
     AddUserResponse,
-    IUserDto
+    IUserDto,
+    UserDetailDto,
+    ReadUserDetailResponse
 }

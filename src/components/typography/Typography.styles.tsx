@@ -3,7 +3,7 @@ import Chip from '@mui/material/Chip';
 import * as MUI from "@mui/material";
 
 export const StyledTitle = styled('h1')<MUI.TypographyProps>(({theme}) =>({
-    background: "linear-gradient(to right bottom, #02759F, #00bcd4)",
+    background: theme.palette.mode === "light" ?"linear-gradient(to right bottom, #02759F, #00bcd4)": '#FFF',
     WebkitBackgroundClip: "text",
     fontWeight: 800,
     WebkitTextFillColor: "transparent",

@@ -1,6 +1,7 @@
-import { LoadingSpinerButton, SubmitButton } from "./Button.styles";
+import { LoadingSpinerButton, SubmitButton, MapStateButton } from "./Button.styles";
 
 export {
     LoadingSpinerButton,
-    SubmitButton
+    SubmitButton, 
+    MapStateButton
 }

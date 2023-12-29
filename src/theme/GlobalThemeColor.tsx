@@ -38,7 +38,7 @@ const GlobalThemeColor = (mode: MUI.PaletteMode) => ({
                 main: '#02759F',  //for textField
             },
             background: {
-                default: '#f6f8fc',
+                default: '#fcfcff',
                 primary: '#02759F',
                 secondary: '#00bcd4',
                 third: '#FFF',
@@ -49,7 +49,7 @@ const GlobalThemeColor = (mode: MUI.PaletteMode) => ({
                 appBar: '#02759F',
                 drawerBtn: '#02759F',
                 sidebarOpen: '#FFF',
-                sidebarClose: '#f6f8fc',
+                sidebarClose: '#fcfcff',
                 formButton: '#02759F',
                 formButtonText: '#FFF',
                 confirmButton: '#00bcd4',
@@ -58,9 +58,10 @@ const GlobalThemeColor = (mode: MUI.PaletteMode) => ({
                 tableHeader: '#fafafa',
                 tableRow: '#f5f5f5',
                 navigation: '#02759F',
-                search: '#00bcd4',
+                search: '#f5f5f5',
                 avatar_2: '#00bcd4',
-                route: '#243B70'
+                route: '#243B70',
+                patrolSelectedBorder: "#02759F"
             },
             divider: MUI.colors.grey[300],
             text: {
@@ -111,8 +112,8 @@ const GlobalThemeColor = (mode: MUI.PaletteMode) => ({
                 paper: '#121212',
                 appBar: 'rgba(0,0,0,0.87)',
                 drawerBtn: 'rgba(0,0,0,0.9)',
-                sidebarOpen: '#212121',
-                sidebarClose: '#212121',
+                sidebarOpen: 'rgba(0,0,0,0.9)',
+                sidebarClose: '#121212',
                 formButton: '#a5d6a7',
                 formButtonText:'#FFF',
                 confirmButton: MUI.colors.green[200],
@@ -123,7 +124,8 @@ const GlobalThemeColor = (mode: MUI.PaletteMode) => ({
                 navigation: '#FFF',
                 search: '#4fd4ca',
                 avatar_2: '#4fd4ca',
-                route: '#FFF'
+                route: '#FFF',
+                patrolSelectedBorder: "rgba(165, 214, 167)",
             },
             divider: 'rgba(255, 255, 255, 0.12)',
             text: {

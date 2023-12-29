@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { useDispatch } from "react-redux";
 import axiosInstance, { Common } from "../apis/Api";
@@ -67,12 +67,19 @@ export const useAxios = <T>(callback?: callbackProps<T>) => {
         }
     }
 
+	const handleDataChange = useCallback(() => {
+		setData(undefined);
+		setError(null);
+	} ,[data, error])
+
     return {
         loading,
         error,
         data,
+		setData,
         makeRequest,
 		setError,
+		handleDataChange
     }
 }
 
@@ -132,11 +139,17 @@ export const useAxiosWithTimeHandling = <T extends Common> (callback?: callbackP
 		}
 	}
 	
+	const handleDataChange = useCallback(() => {
+		setData(undefined);
+		setError(null);
+	} ,[data, error])
+	
     return {
         loading,
         error,
         data,
         makeRequest,
 		setError,
+		handleDataChange,
     }
 }

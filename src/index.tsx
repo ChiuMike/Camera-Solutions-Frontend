@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router} from "react-router-dom";
 import AxiosInterceptors from './apis/AxiosInterceptors';
 import Store from './redux/Store'
 import { Provider } from "react-redux";;

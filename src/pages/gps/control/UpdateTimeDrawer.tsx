@@ -1,6 +1,6 @@
 import * as MUI from "@mui/material";
 import * as React from "react";
-import { DrawerHeader } from "../../../components/drawer/Drawer.styles";
+import { DrawerHeader } from "../../../components/drawer/style/Drawer.styles";
 import { CancelButton, ConfirmButton } from "../../../components/popup/Popup.styles";
 import { DrawerContent, DrawerFooter, UpdateDrawer } from "../style/MapControl.styles";
 

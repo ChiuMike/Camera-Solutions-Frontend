@@ -1,7 +1,7 @@
 import * as MUI from "@mui/material";
 import * as React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link, useHistory, useLocation } from "react-router-dom";
-import { Drawer, DrawerButton, DrawerHeader } from "../drawer/Drawer.styles";
+import { Drawer, DrawerButton, DrawerHeader } from "../drawer/style/Drawer.styles";
 import { AppBar, HeaderImg, Main } from "./Navbar.styles";
 import * as MuiIcons from '@mui/icons-material';
 import Home from "../../pages/home/Home";
@@ -24,6 +24,7 @@ const Navbar: React.FC<NavbarBaseProps> = ({themeMode, handleChangeTheme, setDra
 
     const history = useHistory();
     const [tokens, setTokens] = React.useState(false);
+    const [isMap, setIsMap] = React.useState(false);
 
     const { makeRequest: userLogout, error: logoutError} = useAxios<UserLogoutResponse>({
         onSuccess: (response) => {
@@ -41,15 +42,13 @@ const Navbar: React.FC<NavbarBaseProps> = ({themeMode, handleChangeTheme, setDra
     };
 
     React.useEffect(()=> {
-
         const hasToken = localStorage.getItem("token");
-
         if (hasToken !== null) {
             setTokens(true)
         } else {
             setTokens(false)
         }
-    } ,[]);
+    } , []);
 
     return (
         <Router>
@@ -79,11 +78,12 @@ const Navbar: React.FC<NavbarBaseProps> = ({themeMode, handleChangeTheme, setDra
                         </MUI.Toolbar>
                     </AppBar>
                     {tokens && 
-                        <Drawer variant="permanent" open={drawerOpen}>
+                        <Drawer variant="permanent" open={drawerOpen} isMap={isMap}>
                             <DrawerHeader />
                             <SidebarMenu 
                                 drawerOpen={drawerOpen}
                                 setDrawerOpen={setDrawerOpen}
+                                handleSignout={handleSignout}
                             />
                         </Drawer>
                     }
@@ -101,6 +101,8 @@ const Navbar: React.FC<NavbarBaseProps> = ({themeMode, handleChangeTheme, setDra
                                         path={route.path}
                                         component={route.component}
                                         drawerOpen={drawerOpen}
+                                        setIsMap={setIsMap}
+                                        setTokens={setTokens}
                                         exact
                                     />
                                 );

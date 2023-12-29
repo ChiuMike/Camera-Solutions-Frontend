@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as MUI from "@mui/material";
-import { DrawerHeader } from '../../components/drawer/Drawer.styles';
+import { DrawerHeader } from '../../components/drawer/style/Drawer.styles';
 import { ControllerContainer, IRowData, Table } from '../../components/table';
 import { useAxios, useAxiosWithTimeHandling } from '../../hooks/useAxios';
 import { ReadUsersResponse, ApiUrl, IUserDto } from '../../apis/users';

@@ -1,16 +1,21 @@
 import * as MUI from "@mui/material";
-import * as React from "react";
+import React, { useEffect, FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import * as MuiIcons from "@mui/icons-material";
-import { IIcon, ISidebarMenu, sidebarImages, sidebarDevices } from "./sidebarList";
-import { SidebarSubheader } from "./Sidebar.styles";
+import { IIcon, ISidebarMenu, sidebarTop, gpsPtt, DeviceManagement, Setting } from "./sidebarList";
+import { SidebarContainer, SidebarSubheader } from "./Sidebar.styles";
+import { ApiUrl, ReadUserDetailResponse } from "../../apis/users";
+import { useAxios } from "../../hooks/useAxios";
+import { RequestMethod } from "../../apis/Api";
+import useLocalStorage, { LocalStorage } from "../../hooks/useLocalStorage";
 
 export interface SidebarBaseProps {
     drawerOpen: boolean;
     setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    handleSignout: () => void;
 }
 
-export const SetSidebarIcon: React.FC<IIcon> = (props) => {
+export const SetSidebarIcon: FC<IIcon> = (props) => {
     const { name } = props;
 
     switch (name) {
@@ -32,7 +37,7 @@ export const SetSidebarIcon: React.FC<IIcon> = (props) => {
         case "Monitor": {
 			return <MuiIcons.Monitor />;
 		}
-        case "Event Logs": {
+        case "Event Log": {
 			return <MuiIcons.EventNote />;
 		}
         case "Remote Control": {
@@ -41,11 +46,17 @@ export const SetSidebarIcon: React.FC<IIcon> = (props) => {
         case "Settings": {
 			return <MuiIcons.Settings />;
 		}
-        case "Video Chat": {
-			return <MuiIcons.VideoChat />;
-		}
         case "History Track" : {
             return <MuiIcons.TravelExplore />;
+        }
+        case "Patrol" : {
+            return <MuiIcons.TransferWithinAStation />;
+        }
+        case "Channel" : {
+            return <MuiIcons.InterpreterMode />;
+        }
+        case "Video Upload" : {
+            return <MuiIcons.VideoFile />;
         }
         default :{
             return null
@@ -53,112 +64,34 @@ export const SetSidebarIcon: React.FC<IIcon> = (props) => {
     }
 };
 
-const SidebarMenu: React.FC<SidebarBaseProps> = ({drawerOpen: open, setDrawerOpen}) => {
+const SidebarMenu: FC<SidebarBaseProps> = ({drawerOpen: open, handleSignout}) => {
 
     const params = useLocation();
 
+    const { value: uuid } = useLocalStorage(LocalStorage.UUID, "");
+
+    const {makeRequest: readUserDetail, data: userDeatil, loading} = useAxios<ReadUserDetailResponse>();
+
+    useEffect(() => {
+        readUserDetail({
+            url: ApiUrl.readUserDetail(uuid),
+            method: RequestMethod.GET
+        });
+    }, []);
+
     return (
-        <MUI.Box sx={{pt: 3}}>
-            <MUI.List 
-                component="nav" 
-                aria-label="main sidebar"
-            >
-                <MUI.Tooltip title={!open ? "Dashboard" : '' } aria-label={"Dashboard"} placement="right">
-                    <MUI.ListItemButton
-                        component={Link}
-                        to={"/dashboard"}
-                        selected={params.pathname.includes("/dashboard") }
-                    >
-                        <MUI.ListItemIcon>
-                            <SetSidebarIcon name={"Dashboard"}/>
-                        </MUI.ListItemIcon>
-                        <MUI.ListItemText>Dashboard</MUI.ListItemText>
-                    </MUI.ListItemButton>
-                </MUI.Tooltip>
-                <MUI.Tooltip title={!open ? "Users" : '' } aria-label={"Users"} placement="right">
-                    <MUI.ListItemButton
-                        component={Link}
-                        to={"/users"}
-                        selected={params.pathname.includes("/users") }
-                    >
-                        <MUI.ListItemIcon>
-                            <SetSidebarIcon name={"Users"} />
-                        </MUI.ListItemIcon>
-                        <MUI.ListItemText>Users</MUI.ListItemText>
-                    </MUI.ListItemButton>
-                </MUI.Tooltip>
-            </MUI.List>
-            <MUI.Divider sx={{mt: 2}} />
-            <MUI.List 
-                component="nav" 
-                aria-label="main sidebar"
-                subheader={<SidebarSubheader open={open}>{"GPS & LIVE"}</SidebarSubheader>}
-            >
-            {sidebarImages.map((mainMenu: ISidebarMenu, i) =>  
-                <MUI.Tooltip title={!open ? mainMenu.name : '' } aria-label={mainMenu.name} placement="right" key={i}>
-                    <MUI.ListItemButton
-                        component={Link}
-                        key={i}
-                        to={mainMenu.uri}
-                        selected={params.pathname.includes(mainMenu.uri) }
-                    >
-                        <MUI.ListItemIcon>
-                            <SetSidebarIcon name={mainMenu.name} />
-                        </MUI.ListItemIcon>
-                        <MUI.ListItemText>{(mainMenu.name)}</MUI.ListItemText>
-                    </MUI.ListItemButton>
-                </MUI.Tooltip> 
-            )}
-            </MUI.List>
-            <MUI.Divider sx={{mt: 2}} />
-            <MUI.List 
-                component="nav" 
-                aria-label="main sidebar"
-                subheader={<SidebarSubheader open={open}>{"DEVICE MANAGEMENT"}</SidebarSubheader>}
-            >
-                {sidebarDevices.map((mainMenu: ISidebarMenu, i) =>  
-                    <MUI.Tooltip title={!open ? mainMenu.name : '' } aria-label={mainMenu.name} placement="right" key={i}>
-                        <MUI.ListItemButton
-                            component={Link}
-                            key={i}
-                            to={mainMenu.uri}
-                            selected={params.pathname.includes(mainMenu.uri) }
-                        >
-                            <MUI.ListItemIcon>
-                                <SetSidebarIcon name={mainMenu.name} />
-                            </MUI.ListItemIcon>
-                            <MUI.ListItemText>{(mainMenu.name)}</MUI.ListItemText>
-                        </MUI.ListItemButton>
-                    </MUI.Tooltip> 
-                )}
-            </MUI.List>
-            <MUI.Divider sx={{mt: 2}} />
-            <MUI.List component="nav" aria-label="main sidebar">
-                <MUI.Tooltip title={!open ? "Settings" : '' } aria-label={"Settings"} placement="right">
-                    <MUI.ListItemButton
-                        component={Link}
-                        to={"/settings"}
-                        selected={params.pathname.includes("/settings") }
-                    >
-                        <MUI.ListItemIcon>
-                            <SetSidebarIcon name={"Settings"} />
-                        </MUI.ListItemIcon>
-                        <MUI.ListItemText>Settings</MUI.ListItemText>
-                    </MUI.ListItemButton>
-                </MUI.Tooltip>
-            </MUI.List>
-            {/* {sidebarArray.map((mainMenu: ISidebarMenu, i) => {
-                if (mainMenu.submenu && mainMenu.submenu.length > 0) {
-                    return (
-                        <ExpandableItem 
-                            key={i}
-                            sidebarArr={mainMenu}
-                        />
-                    )
-                }
-                return (
-                    <MUI.List component="nav" aria-label="main sidebar" key={i}>
-                        <MUI.Tooltip title={!open ? mainMenu.name : '' } aria-label={mainMenu.name} placement="right">
+        <SidebarContainer>
+            <MUI.Box className="sidebar-header">
+
+            </MUI.Box>
+            <MUI.Box className="header">
+                <MUI.List
+                    component="nav" 
+                    aria-label="main sidebar"
+                    className="sidebar-top-list"
+                >
+                    {sidebarTop.map((mainMenu: ISidebarMenu, i) => 
+                        <MUI.Tooltip title={!open ? mainMenu.name : '' } aria-label={mainMenu.name} placement="right" key={i}>
                             <MUI.ListItemButton
                                 component={Link}
                                 key={i}
@@ -171,10 +104,105 @@ const SidebarMenu: React.FC<SidebarBaseProps> = ({drawerOpen: open, setDrawerOpe
                                 <MUI.ListItemText>{(mainMenu.name)}</MUI.ListItemText>
                             </MUI.ListItemButton>
                         </MUI.Tooltip>
-                    </MUI.List>
-                )
-            })} */}
-        </MUI.Box>
+                    )}
+                </MUI.List>
+                <MUI.Divider sx={{mt: 2}} />
+                <MUI.List
+                    component="nav" 
+                    aria-label="main sidebar"
+                    className="sidebar-gpsPtt"
+                    subheader={<SidebarSubheader open={open}>{"GPS & Channel"}</SidebarSubheader>}
+                >
+                    {gpsPtt.map((mainMenu: ISidebarMenu, i) => 
+                        <MUI.Tooltip title={!open ? mainMenu.name : '' } aria-label={mainMenu.name} placement="right" key={i}>
+                            <MUI.ListItemButton
+                                component={Link}
+                                key={i}
+                                to={mainMenu.uri}
+                                selected={params.pathname.includes(mainMenu.uri) }
+                            >
+                                <MUI.ListItemIcon>
+                                    <SetSidebarIcon name={mainMenu.name} />
+                                </MUI.ListItemIcon>
+                                <MUI.ListItemText>{(mainMenu.name)}</MUI.ListItemText>
+                            </MUI.ListItemButton>
+                        </MUI.Tooltip>
+                    )}
+                </MUI.List>
+                <MUI.Divider sx={{mt: 2}} />
+                <MUI.List
+                    component="nav" 
+                    aria-label="main sidebar"
+                    className="sidebar-gpsPtt"
+                    subheader={<SidebarSubheader open={open}>{"Device Management"}</SidebarSubheader>}
+                >
+                    {DeviceManagement.map((mainMenu: ISidebarMenu, i) => {
+                        return (
+                            <MUI.Tooltip title={!open ? mainMenu.name : '' } aria-label={mainMenu.name} placement="right" key={i}>
+                                <MUI.ListItemButton
+                                    component={Link}
+                                    key={i}
+                                    to={mainMenu.uri}
+                                    selected={params.pathname.includes(mainMenu.uri) }
+                                >
+                                    <MUI.ListItemIcon>
+                                        <SetSidebarIcon name={mainMenu.name} />
+                                    </MUI.ListItemIcon>
+                                    <MUI.ListItemText>{(mainMenu.name)}</MUI.ListItemText>
+                                    {mainMenu.submenu !== undefined &&
+                                        <MuiIcons.ExpandLess/>
+                                    }
+                                </MUI.ListItemButton>
+                            </MUI.Tooltip>
+                            )
+                        }
+                    )}
+                </MUI.List>
+                <MUI.Divider sx={{mt: 2}} />
+                <MUI.List
+                    component="nav" 
+                    aria-label="main sidebar"
+                    className="sidebar-gpsPtt"
+                >
+                    {Setting.map((mainMenu: ISidebarMenu, i) => 
+                        <MUI.Tooltip title={!open ? mainMenu.name : '' } aria-label={mainMenu.name} placement="right" key={i}>
+                            <MUI.ListItemButton
+                                component={Link}
+                                key={i}
+                                to={mainMenu.uri}
+                                selected={params.pathname.includes(mainMenu.uri) }
+                            >
+                                <MUI.ListItemIcon>
+                                    <SetSidebarIcon name={mainMenu.name} />
+                                </MUI.ListItemIcon>
+                                <MUI.ListItemText>{(mainMenu.name)}</MUI.ListItemText>
+                            </MUI.ListItemButton>
+                        </MUI.Tooltip>
+                    )}
+                </MUI.List>
+            </MUI.Box>
+            <MUI.Box className="sidebar-footer">
+                <MUI.List>
+                    <MUI.ListItem>
+                        <MUI.Tooltip title={userDeatil?.data.username} placement="right">
+                            <MUI.ListItemAvatar>
+                                <MUI.Avatar 
+                                    alt={userDeatil?.data.username.toUpperCase()}
+                                    src="/static/images/avatar/1.jpg"
+                                    sx={{ background: "#02759F", width: 30, height: 30}}
+                                />
+                            </MUI.ListItemAvatar>
+                        </MUI.Tooltip>
+                        <MUI.ListItemText
+                            primary={userDeatil?.data.username}
+                        />
+                        <MUI.IconButton onClick={handleSignout}>
+                            <MuiIcons.Logout />
+                        </MUI.IconButton>
+                    </MUI.ListItem>
+                </MUI.List>
+            </MUI.Box>
+        </SidebarContainer>
     )
 };
 

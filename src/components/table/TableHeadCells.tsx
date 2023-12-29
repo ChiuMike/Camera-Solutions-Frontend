@@ -4,6 +4,8 @@ import { IUserDto } from "../../apis/users";
 import { IRowData } from "./types";
 import * as MuiIcons from "@mui/icons-material/";
 import { IDeviceDto } from "../../apis/device";
+import { Battery } from "../icon";
+import TableStatus from "./helper/TableStatus";
 
 export const UsersHeadCell: Column<IRowData>[] = [
     { title: "USERNAME", field: "username"},
@@ -34,9 +36,43 @@ export const UsersHeadCell: Column<IRowData>[] = [
 ];
 
 export const iotDeviceHeadCells: Column<IRowData>[] = [
-    { title: "NAME", field: "name"},
-    { title: "DEVICE ID", field: "device_id" },
-    { title: "UPDATED TIME", field: "updated_at" },
+    { title: "", field: "type", width: "30px" ,render: (row) => {
+        const data = row as IDeviceDto;
+        return (
+            <>
+            {
+                data.name.toLowerCase().includes("salute") ?
+                <MUI.Avatar 
+                    src={"/images/salute-removebg.png"}
+                    sx={{ 
+                        backgroundColor: "#c4e7ff", 
+                        width: 40, 
+                        height: 40,
+                        "img": {
+                            transform: "scale(.8)"
+                        }
+                    }}
+                />
+                :
+                <MUI.Avatar 
+                    src={"/images/panther_bg.png"}
+                    sx={{ 
+                        backgroundColor: "#c4e7ff", 
+                        width: 40, 
+                        height: 40,
+                        "img": {
+                            transform: "scale(.7)"
+                        }
+                    }}
+                />
+            }
+            </>
+            
+        )
+    }},
+    { title: "NAME", field: "name", width: '200px'},
+    { title: "DEVICE ID", field: "device_id", width: '200px' },
+    { title: "UPDATED TIME", field: "updated_at", width: '200px', },
     { title: "CONNECTION", field: "connection", width: '100px',
         render: (row) => {  
             return (
@@ -54,6 +90,26 @@ export const iotDeviceHeadCells: Column<IRowData>[] = [
             )
         },
     },
+    { title: "BATTERY", field: "battery", width: "100px",
+        render: (row) => {
+            if ((row as IDeviceDto).battery === "none") {
+                return (
+                    <MUI.Box sx={{width: '80px', display: 'flex', justifyContent: 'center'}}>
+                        <MuiIcons.BatteryUnknown fontSize="large" sx={{color: 'hsl(54, 89%, 46%)'}}/>
+                    </MUI.Box>
+                )
+            }
+            return (
+                <>
+                <MUI.Box sx={{width: '80px', display: 'flex', justifyContent: 'center'}}>
+                    <Battery level={Number((row as IDeviceDto).battery)}>
+                        <MUI.Box className="battery-level"></MUI.Box>
+                    </Battery>
+                </MUI.Box>
+                </>
+            )
+        },
+    },
     { title: "NETWORK", field: "network", width: '100px',
         render: (row) => {  
             if ((row as IDeviceDto).network === "none") {
@@ -66,11 +122,11 @@ export const iotDeviceHeadCells: Column<IRowData>[] = [
             return (
                 <>
                 {(row as IDeviceDto).network === "wifi" ?
-                    <MUI.Box sx={{width: '90px', display: 'flex', justifyContent: 'center'}}>
+                    <MUI.Box sx={{width: '90px', display: 'flex', justifyContent: 'center', color: '#9e9e9e'}}>
                         <MuiIcons.Wifi />
                     </MUI.Box>
                     :
-                    <MUI.Box sx={{width: '90px', display: 'flex', justifyContent: 'center'}}>
+                    <MUI.Box sx={{width: '90px', display: 'flex', justifyContent: 'center', color: '#9e9e9e'}}>
                         <MuiIcons.LteMobiledata fontSize="large"/>
                     </MUI.Box>
                 }
@@ -78,38 +134,28 @@ export const iotDeviceHeadCells: Column<IRowData>[] = [
             )
         },
     },
-    { title: "BATTERY", field: "battery", width: "100px",
-        render: (row) => {
-            if ((row as IDeviceDto).battery === "none") {
-                return (
-                    <MUI.Box sx={{width: '80px', display: 'flex', justifyContent: 'center'}}>
-                        <MuiIcons.BatteryUnknown fontSize="large" sx={{color: 'hsl(54, 89%, 46%)'}}/>
-                    </MUI.Box>
-                )
-            }
+];
+
+export const iotDeviceControlHeadCells: Column<IRowData>[] = [
+    { title: "NAME", field: "name", },
+    { title: "DEVICE ID", field: "device_id" },
+    { title: "UPDATED TIME", field: "updated_at" },
+    { title: "BATTERY", field: "battery",
+        render: (data) => {
             return (
-                <>
-                {(row as IDeviceDto).battery === "low" ?
-                    <MUI.Box sx={{width: '80px', display: 'flex', justifyContent: 'center'}}>
-                        <MuiIcons.Battery20 sx={{color: 'hsl(54, 89%, 46%)'}} fontSize="large"/>
-                    </MUI.Box>
-                    :
-                    <>
-                    {(row as IDeviceDto).battery === "medium" ? 
-                        <MUI.Box sx={{width: '80px', display: 'flex', justifyContent: 'center'}}>
-                            <MuiIcons.Battery80 sx={{color: '#118bee'}} fontSize="large"/>
-                        </MUI.Box>
-                        :
-                        <MUI.Box sx={{width: '80px', display: 'flex', justifyContent: 'center'}}>
-                            <MuiIcons.Battery50 sx={{color: 'hsl(22, 89%, 46%)'}} fontSize="large"/>
-                        </MUI.Box>
-                    }
-                    
-                    </>
-                }
-                </>
+                <MUI.Box sx={{display: 'flex', justifyContent: 'start'}}>
+                    <Battery level={Number((data as IDeviceDto).battery)}>
+                        <MUI.Box className="battery-level"></MUI.Box>
+                    </Battery>
+                </MUI.Box>
             )
-        },
+        }
     },
-    { title: "TEMPERATURE", field: "temperature"},
+    { title: "STATUS", field: "status", 
+        render: (data) => {
+            return (
+                <TableStatus data={data}/>
+            )
+        } 
+    },
 ];

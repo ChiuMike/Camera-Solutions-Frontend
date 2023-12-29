@@ -11,7 +11,18 @@ export interface IIcon {
     name: string;
 }
 
-export const sidebarImages: ISidebarMenu[] = [
+export const sidebarTop: ISidebarMenu[] = [
+    {
+        name: 'Dashboard',
+        uri: '/dashboard',
+    },
+    {
+        name: 'Users',
+        uri: '/users',
+    },
+];
+
+export const gpsPtt: ISidebarMenu[] = [
     {
         name: 'Map',
         uri: '/map',
@@ -21,16 +32,20 @@ export const sidebarImages: ISidebarMenu[] = [
         uri: '/history-track',
     },
     {
+        name: 'Patrol',
+        uri: '/patrol',
+    },
+    {
         name: 'Monitor',
         uri: '/monitor',
     },
     {
-        name: 'Video Chat',
-        uri: '/video-chat',
+        name: 'Channel',
+        uri: '/channel',
     },
 ];
 
-export const sidebarDevices: ISidebarMenu[] = [
+export const DeviceManagement: ISidebarMenu[] = [
     {
         name: 'Devices',
         uri: '/devices',
@@ -40,7 +55,18 @@ export const sidebarDevices: ISidebarMenu[] = [
         uri: '/remote-control',
     },
     {
-        name: 'Event Logs',
-        uri: '/logs',
+        name: 'Video Upload',
+        uri: '/video-upload',
+    },
+    {
+        name: 'Event Log',
+        uri: '/event-log',
+    },
+];
+
+export const Setting: ISidebarMenu[] = [
+    {
+        name: 'Settings',
+        uri: '/settings',
     },
 ];

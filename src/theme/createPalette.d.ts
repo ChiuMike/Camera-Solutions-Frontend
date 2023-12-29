@@ -23,6 +23,8 @@ declare module "@mui/material/styles/createPalette" {
     red_2: string;
     red_3: string;
     route: string;
+    // Patrol
+    patrolSelectedBorder: string;
   }
 
   interface TypeText {

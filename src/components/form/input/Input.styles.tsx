@@ -51,32 +51,45 @@ export const RoundedTextField = MUI.styled(MUI.TextField)<MUI.TextFieldProps>(({
 }));
 
 export const Search = MUI.styled(MUI.Box)(({ theme }) => ({
-    width: '80%',
-    padding: '0px',
-    fontSize: '10px',
-    paddingRight: 0
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+	border: `2px solid ${theme.palette.background.search}`,
+	backgroundColor: theme.palette.background.search,
 }));
-
+  
+export const SearchIconWrapper = MUI.styled(MUI.Box)(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+}));
+  
 export const StyledInputBase = MUI.styled(MUI.InputBase)(({ theme }) => ({
-    borderRight: 'none',
-    padding: '5px 15px',
-    height: '35px',
-    borderRadius: '25px 0 0 25px',
-    width: '100%',
-    border: `2px solid ${theme.palette.background.primary}`,
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+        padding: theme.spacing(.7, 1, .7, 0),
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        transition: theme.transitions.create('width'),
+		'&::placeholder': {
+			textOverflow: 'ellipsis',
+			color: theme.palette.mode === "light" ?'#121212' : "#c0c7cd",
+			fontWeight: 'bold'
+		},
+    },
 }));
 
-export const SearchButton = MUI.styled(MUI.IconButton)<MUI.IconButtonProps>(({theme}) => ({
-    width: '40px',
-    height: '35px',
-    border: `2px solid ${theme.palette.background.primary}`,
-    background: theme.palette.background.primary,
-    textAlign: 'center',
-    color: '#fff',
-    borderRadius: '0 25px 25px 0',
-    cursor:'pointer',
-    fontSize: '20px',
-    ':hover': {
-        background: theme.palette.action.hover,
-    }
+export const DateInputWrapper = MUI.styled(MUI.Box)<MUI.TextFieldProps>(({theme}) => ({
+	width: '100%',
+	"& .datePicker": {
+		width: '100%',
+		"input": {
+			width: '100%',
+			borderRadius: '8px',
+			border: "1px solid #02759F",
+			padding: "10px"
+		},
+	},
 }));

@@ -6,7 +6,7 @@ const useClick = () => {
     
     const handleClick = useCallback(() => {
         setOpen((prev) => !prev);
-    }, [])
+    }, [open])
 
     return [handleClick, open, setOpen] as [() => void, boolean, (value: SetStateAction<boolean>) => void];
 };

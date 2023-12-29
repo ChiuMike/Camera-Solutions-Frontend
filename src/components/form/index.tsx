@@ -1,5 +1,5 @@
 import { FormPaperUser, Form, StyledForm, ShowPasswordFormGroup, FormPaper, FormWithListContainer } from "./form/Form.styles";
-import { TextField, AccountInput, RoundedTextField,Search, StyledInputBase, SearchButton } from "./input/Input.styles";
+import { TextField, AccountInput, RoundedTextField, Search, SearchIconWrapper, StyledInputBase, DateInputWrapper } from "./input/Input.styles";
 import { FormInputLabel } from "./label/FormLabel.styles";
 
 export {
@@ -13,7 +13,8 @@ export {
     AccountInput,
     RoundedTextField,
     FormInputLabel,
-    Search,
+    Search, 
+    SearchIconWrapper, 
     StyledInputBase,
-    SearchButton
+    DateInputWrapper
 }

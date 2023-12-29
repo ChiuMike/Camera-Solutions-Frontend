@@ -246,3 +246,10 @@ path.leaflet-interactive.custom-line {
         filter: alpha(opacity=0);
     }
 }
+
+/* .leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+  filter: invert(90%) hue-rotate(180deg) brightness(125%) contrast(95%);
+} */

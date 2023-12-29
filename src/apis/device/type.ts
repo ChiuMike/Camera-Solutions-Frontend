@@ -10,6 +10,7 @@ export type IDeviceDto = {
     network: string,
     temperature: string,
     battery: string,
+    status: string,
 }
 
 export type IAddDeviceDto = {

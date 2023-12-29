@@ -35,7 +35,7 @@ export const TableMainBox = MUI.styled(MUI.Box, { shouldForwardProp: (prop) => p
     "& .MuiToolbar-root" : {
         "& .MuiFormControl-root" : {
             position: 'relative',
-            backgroundColor:'#f7f8fc',
+            backgroundColor: '#f5f5f5',
             padding: '5px 0px',
             borderRadius: '10px',
             '&:hover': {
@@ -56,7 +56,7 @@ export const TableMainBox = MUI.styled(MUI.Box, { shouldForwardProp: (prop) => p
                 borderBottom: 'none',
             },
             "& .MuiSvgIcon-root": {
-                color: "#02759F",
+                color: "#212121",
                 transform: 'scale(1.1)'
             }
         },
@@ -70,11 +70,11 @@ export const TableMainBox = MUI.styled(MUI.Box, { shouldForwardProp: (prop) => p
         top: 0,
         zIndex: 2,
         "& .MuiTableCell-root": {
-            backgroundColor: '#e6f1f5',
-            color: theme.palette.text.main,
+            backgroundColor: '#f5f5f5',
+            color: "#121212",
             lineHeight: '2rem',
-            fontWeight: 900,
-            fontSize: '16px',
+            fontWeight: 600,
+            fontSize: '14px',
             height: loading ? '0px' : '60px',
         },
     },
@@ -85,10 +85,11 @@ export const TableMainBox = MUI.styled(MUI.Box, { shouldForwardProp: (prop) => p
     },
     "& .MuiTableRow-root": {
         fontSize: '14px',
+       
         backgroundColor: theme.palette.background.paper,
-        borderBottom: theme.palette.mode === 'light' ? `5px solid ${theme.palette.background.default}` : '0.1px solid #FFF',
+        borderBottom: theme.palette.mode === 'light' ? `1.5px solid #f5f5f5` : '0.1px solid #FFF',
         "&:hover" : {
-            backgroundColor: "#e6f1f5 !important",
+            backgroundColor: "#f5f5f5 !important",
         },
         '&:last-of-type': {
             borderBottom: 'none'

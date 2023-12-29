@@ -12,6 +12,8 @@ declare global {
       REACT_APP_DEVICES: string;
       REACT_APP_DEVICES_GPS: string;
       REACT_APP_DEVICE_HISTORY_GPS: string;
+      REACT_APP_PATROL: string;
+      REACT_APP_CHANNEL_MANAGEMENT: string;
     };
   }
 }

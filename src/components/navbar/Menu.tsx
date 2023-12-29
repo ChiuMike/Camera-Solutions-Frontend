@@ -36,12 +36,12 @@ const Menu: React.FC<MenuBaseProps> = ({ themeMode, handleChangeTheme, handleSig
     return (
         <>
         <MenuStack direction={"row"}>
-            <MUI.IconButton onClick={handleChangeTheme}>
+            {/* <MUI.IconButton onClick={handleChangeTheme}>
                 <MUI.Typography variant="button" sx={{fontWeight:'bold', color: 'text.common', mr:1 }}>
                     {theme.palette.mode} mode
                 </MUI.Typography>
                 {themeMode === 'dark' ? <MuiIcons.Brightness4 fontSize="medium"/> : <MuiIcons.Brightness7 sx={{color: 'text.common'}} fontSize="medium"/>}
-            </MUI.IconButton>
+            </MUI.IconButton> */}
             <MUI.IconButton>
                 <MUI.Typography variant="button" sx={{fontWeight:'bold', color: 'text.common', mr:1 }}>
                     Time zone

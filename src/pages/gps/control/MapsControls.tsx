@@ -1,35 +1,52 @@
 import * as MUI from "@mui/material";
-import { useEffect, FC, useState } from "react";
+import { useEffect, FC, useContext } from "react";
 import L from "leaflet";
 import * as MuiIcons from "@mui/icons-material/";
 import { useMap } from "react-leaflet";
 import Control from 'react-leaflet-custom-control';
-import { MapButton } from "../style/MapControl.styles";
+import { MapButton, MapStateChip } from "../style/MapControl.styles";
 import useClick from "../../../hooks/useClick";
-import SearchCollapse from "./SearchCollapse";
 import UpdateTimeDrawer from "./UpdateTimeDrawer";
-import { SosPopup } from "../../../components/popup";
 import { IMapDevice } from "../../../apis/geolocation";
+import { DeviceMapContext, IDeviceMapState } from "../provider/DeviceMapProvider";
 
 interface MapControlBaseProps {
-    mapDevices: IMapDevice[];
+    toggleSwipDrawer: () => void;
+    swipeOpen: boolean;
 }
 
-const MapsControls: FC<MapControlBaseProps> = ({mapDevices}) => {
+const MapsControls: FC<MapControlBaseProps> = ({toggleSwipDrawer, swipeOpen}) => {
 
     const map = useMap();
-    const [handleSearch, isOpenSearch, setOpenSearch] = useClick();
+    const mediaMatches = MUI.useMediaQuery('(max-width:770px)');
+    const theme = MUI.useTheme();
+
+    const { filter, setFilter } = useContext(DeviceMapContext) as IDeviceMapState;
     const [handleUpdate, isOpenUpdate, setOpenUpdate] = useClick();
-    const [handleSos, isOpenSos, setOpenSos] = useClick();
-    const [sos, setSos] = useState(true);
+
+    const handleDeleteCamChip = (cam: string) => {
+        setFilter((prev) => {
+            return {
+                ...prev,
+                camera: [...prev.camera.filter((item) => item !== cam)]
+            }
+        });
+    };
+
+    const handleDeleteStateChip = (state: string) => {
+        setFilter((prev) => {
+            return {
+                ...prev,
+                state: [...prev.state.filter((item) => item !== state)]
+            }
+        });
+    };
 
     useEffect(() => {
 
         const mapZoom = L.control.zoom({
             position: 'bottomleft',
         }).addTo(map);
-
-        if (!isOpenSearch) setOpenSearch(true);
         
         return () => {
             map.removeControl(mapZoom);
@@ -40,33 +57,55 @@ const MapsControls: FC<MapControlBaseProps> = ({mapDevices}) => {
     return (
         <>
         <UpdateTimeDrawer isOpenUpdate={isOpenUpdate} setOpenUpdate={setOpenUpdate}/>
-        <SosPopup open={isOpenSos} setOpen={setOpenSos} setSos={setSos} />
         <Control 
             position="topright"
-            style={{border: 'none', display: 'flex',}}
+            style={{border: 'none'}}
         >
-            <SearchCollapse isOpenSearch={isOpenSearch} mapDevices={mapDevices} />
-            <MUI.Box sx={{display: 'flex', flexDirection: "column", gap: "16px", marginTop: '50px'}}>
-                <MUI.Tooltip title="SEARCH" placement="left">
-                    <MapButton onClick={handleSearch} open={isOpenSearch} btnColor={"#00bcd4"}>
-                        <MuiIcons.Search className="control-button"/>  
-                    </MapButton>
-                </MUI.Tooltip>
-                <MUI.Tooltip title="Update frequency" placement="left">
-                    <MapButton open={isOpenUpdate} onClick={handleUpdate} btnColor={'rgb(172, 171, 166)'}>
-                        <MuiIcons.Update className="control-button"/>  
-                    </MapButton>
-                </MUI.Tooltip>
-                <MUI.Tooltip title="SOS" placement="left">
-                    <MapButton open={isOpenSos} onClick={handleSos} btnColor={"#c24242"} sos={sos} disabled={!sos}>
-                        <MuiIcons.Sos className="control-button"/>  
-                    </MapButton>
-                </MUI.Tooltip>
-                <MUI.Tooltip title="CALL" placement="left">
-                    <MapButton open={false} btnColor={'#02759F'} >
-                        <MuiIcons.Call className="control-button"/>  
-                    </MapButton>
-                </MUI.Tooltip>
+            <MUI.Box sx={{display: 'flex', flexDirection: 'column', gap: .5}}>
+                {!mediaMatches &&
+                    <MUI.Tooltip title="Update frequency" placement="left">
+                        <MapButton open={isOpenUpdate} onClick={handleUpdate}>
+                            <MuiIcons.Update className="control-button"/>  
+                        </MapButton>
+                    </MUI.Tooltip>
+                }
+            </MUI.Box>
+        </Control>
+        <Control
+            position="topleft"
+            style={{
+                border: 'none', 
+                display: 'flex', 
+                gap: "15px"
+            }}
+        >
+            <MUI.Box
+                sx={{
+                    display: 'flex', 
+                    gap: "15px",
+                    "@media (max-width: 576px)": {
+                        flexWrap: "wrap",
+                    },
+                }}
+            >
+                {filter.state.map((item ,index)=>
+                    <MUI.Zoom key={index} in={true}> 
+                        <MapStateChip
+                            key={index}
+                            label={item.replace("_", " ").toUpperCase()}
+                            onDelete={() => handleDeleteStateChip(item)}
+                        />
+                    </MUI.Zoom>
+                )}
+                {filter.camera.map((item ,index)=>
+                    <MUI.Zoom key={index} in={true}> 
+                        <MapStateChip
+                            key={index}
+                            label={item.toUpperCase()}
+                            onDelete={() => handleDeleteCamChip(item)}
+                        />
+                    </MUI.Zoom>
+                )}
             </MUI.Box>
         </Control>
         </>

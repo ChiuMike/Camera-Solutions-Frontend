@@ -16,6 +16,7 @@ interface MarkerBaseProps {
     previousViweRef: MutableRefObject<L.LatLngExpression | undefined>
     MarkerMountedRef: React.MutableRefObject<boolean>;
     previousZoomRef: MutableRefObject<number | undefined>;
+    mapLoading: boolean;
 }
 
 export interface IMarkerDetail {
@@ -25,33 +26,34 @@ export interface IMarkerDetail {
     time?: string;
 }
 
-const Marker: FC<MarkerBaseProps> = ({ mapDevices, previousZoomRef, previousViweRef, MarkerMountedRef }) => {
+const Marker: FC<MarkerBaseProps> = ({ mapDevices, previousZoomRef, previousViweRef, MarkerMountedRef, mapLoading }) => {
 
     const map = useMap();
-    const { selectedIndex } = useContext(DeviceMapContext) as IDeviceMapState;
+    const { selectedIndex, filter, setSelectedIndex } = useContext(DeviceMapContext) as IDeviceMapState;
     const [detail, setDetail] = useState<IMarkerDetail>({time: '', position: '', name: '', videoUrl: ''});
     const [open, setOpen] = useState(false);
     const [markers, setMarkers] = useState<L.Marker<any>[]>([]);
     const [latlngArr, setLatlngArr] = useState<L.LatLngTuple[]>([]);
 
-    const mcgRef = useRef<L.MarkerClusterGroup>();
+    const mcgRef = useRef<L.MarkerClusterGroup>(
+        L.markerClusterGroup({
+            iconCreateFunction: function (cluster: L.MarkerCluster) {
+                const number = cluster.getChildCount();
+                const icon = clusterIconLogic(number, 'cluster-red');
+                return L.divIcon(
+                    {
+                        html: `<span>${cluster.getChildCount()}</span>`,
+                        className: icon.className,
+                        iconSize: icon.point,
+                    }
+                );
+            },
+            zoomToBoundsOnClick: false,
+            spiderfyOnMaxZoom: true,
+        })
+    );
+    
     const previousMarker = useRef<L.Marker<any>>();
-        
-    const mcg = L.markerClusterGroup({
-        iconCreateFunction: function (cluster: L.MarkerCluster) {
-            const number = cluster.getChildCount();
-            const icon = clusterIconLogic(number, 'cluster-red');
-            return L.divIcon(
-                {
-                    html: `<span>${cluster.getChildCount()}</span>`,
-                    className: icon.className,
-                    iconSize: icon.point,
-                }
-            );
-        },
-        zoomToBoundsOnClick: false,
-        spiderfyOnMaxZoom: true,
-    });
 
     const showMarkerInfo = (latlng: string , name: string, videoUrl: string, update_time?: string, ) => {
         setDetail({time: update_time, position: latlng, name: name, videoUrl: videoUrl});
@@ -60,10 +62,29 @@ const Marker: FC<MarkerBaseProps> = ({ mapDevices, previousZoomRef, previousViwe
 
     useEffect(() => {
 
-        mcg.clearLayers();
+        if(mapDevices.length === 0) return;
+        if(mapLoading) return;
+
+        if(selectedIndex[0] !== -1) setSelectedIndex([-1]);
+        if(previousMarker.current !== undefined) {
+            map.removeLayer(previousMarker.current);
+            previousMarker.current = undefined;
+        };
+
+        mcgRef.current.clearLayers();
         let latlngs: L.LatLngTuple[]=[];
+        let markersArray: L.Marker<any>[] = [];
         
-        mapDevices.forEach((item: IMapDevice, index) => {
+        mapDevices
+        .filter((device) => {
+            if(filter.state.length === 0) return device;
+            return filter.state.includes(device.device.status);
+        })
+        .filter((device) => {
+            if(filter.camera.length === 0) return device;
+            return filter.camera.includes(device.device.name.split("_")[0].toLowerCase())
+        })
+        .forEach((item: IMapDevice, index) => {
 
             var marker_icon = null;
 
@@ -92,25 +113,24 @@ const Marker: FC<MarkerBaseProps> = ({ mapDevices, previousZoomRef, previousViwe
                     icon: marker_icon,
                     draggable: false,
                 })
-                .addTo(mcg)
-                .bindTooltip(`${mapDevices[index].device.name}`)
+                .addTo(mcgRef.current)
+                .bindTooltip(`${item.device.name}`)
                 .addEventListener('click', function(e) {
                     showMarkerInfo(`
                         ${lat.toFixed(3)}, ${lng.toFixed(3)}`, 
-                        mapDevices[index].device.name, 
-                        videos[index],mapDevices[index].geolocation[0].update_time
+                        item.device.name, 
+                        "/video/driving.mp4",
+                        item.geolocation[0].update_time
                     );
-                })
+                });
 
-                setMarkers((prev) => {
-                    return [...prev, marker]
-                })
+                markersArray.push(marker);
             }
         });
 
-        map.addLayer(mcg);
+        setMarkers(markersArray);
 
-        mcgRef.current = mcg;
+        map.addLayer(mcgRef.current);
 
         map.addEventListener('moveend', function(e) {
             let newCenter: L.LatLng = map.getCenter()
@@ -119,7 +139,7 @@ const Marker: FC<MarkerBaseProps> = ({ mapDevices, previousZoomRef, previousViwe
             previousZoomRef.current = newZoom;
         });
 
-        mcg.on('clusterclick', function (a: L.LeafletEvent) {
+        mcgRef.current.on('clusterclick', function (a: L.LeafletEvent) {
             a.layer.zoomToBounds();
         });
 
@@ -139,12 +159,12 @@ const Marker: FC<MarkerBaseProps> = ({ mapDevices, previousZoomRef, previousViwe
         }
 
         return () =>{
-            if(map.hasLayer(mcg)){
-                map.removeLayer(mcg);
+            if(map.hasLayer(mcgRef.current)){
+                map.removeLayer(mcgRef.current);
             }
         };
 
-    }, [mapDevices]);
+    }, [filter.camera, filter.state, mapDevices]);
 
     useEffect(() => {
 
@@ -192,8 +212,8 @@ const Marker: FC<MarkerBaseProps> = ({ mapDevices, previousZoomRef, previousViwe
             }
 
             previousMarker.current = markers[selectedIndex[0]];
-            
-            map.flyTo(markers[selectedIndex[0]].getLatLng(), 15);
+
+            map.setView(markers[selectedIndex[0]].getLatLng(),16)
 
         } else {
             if(latlngArr.length > 0 && mcgRef.current !== undefined) {

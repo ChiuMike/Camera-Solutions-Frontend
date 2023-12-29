@@ -1,22 +1,25 @@
-import { useEffect, useRef }  from "react";
-import { MapContainer,TileLayer } from 'react-leaflet'
-import * as L from 'leaflet';
-import "./style/map.css";
-import "leaflet/dist/leaflet.css";
-import { Container } from "./style/DeviceMap.styles";
-import MapsControls from "./control/MapsControls";
+import { FC, useEffect, useState }  from "react";
 import { GetDevicesMapResponse, ApiUrl as GPSUrl } from "../../apis/geolocation";
-import Marker from "./marker/Marker";
 import DeviceMapProvider from "./provider/DeviceMapProvider";
 import { useAxios } from "../../hooks/useAxios";
 import { ApiUrl, ReadIotDevicesResponse } from "../../apis/device";
 import { RequestMethod } from "../../apis/Api";
+import DeviceMapDrawer from "./drawer/DeviceMapDrawer";
+import * as MUI from "@mui/material";
+import Map from "./map/Map";
+import MobileDrawer from "../../components/drawer/MobileDrawer";
+import MobileContent from "./drawer/MobileContent";
 
-const DeviceMap = () => {
+interface DeviceMapBaseProps {
+    drawerOpen: boolean;
+    setIsMap: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-    const MarkerMountedRef = useRef(false);
-    const previousViweRef = useRef<L.LatLngExpression>();
-    const previousZoomRef = useRef<number>();
+const DeviceMap: FC<DeviceMapBaseProps> = ({drawerOpen, setIsMap}) => {
+
+    const mediaMatches = MUI.useMediaQuery('(max-width:770px)');
+
+    const [swipeOpen, setSwipeOpen] = useState(false);
 
     const { loading: mapLoading, data: mapDevices, makeRequest: getDevicesGPS } = useAxios<GetDevicesMapResponse>();
 
@@ -42,38 +45,54 @@ const DeviceMap = () => {
         }
     });
 
+    const toggleSwipDrawer = () => {
+        setSwipeOpen((prev)=> !prev);
+    };
+
     useEffect(() => {
         listIotDevices({
             url: ApiUrl.readDevices(),
             method: RequestMethod.GET,
         })
     }, []);
+
+    useEffect(() => {
+        setIsMap(true);
+        return () => setIsMap(false);
+    } ,[])
    
     return (
         <DeviceMapProvider>
-            <Container isMap={true}>
-                <MapContainer
-                    className="markercluster-map"
-                    zoom={15}
-                    style={{height:'100%'}}
-                    zoomControl={false}
-                >   
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    <MapsControls
-                        mapDevices={mapDevices ? mapDevices.data : []}
-                    />
-                    <Marker 
-                        mapDevices={mapDevices ? mapDevices.data : []} 
-                        previousViweRef={previousViweRef}
-                        MarkerMountedRef={MarkerMountedRef}
-                        previousZoomRef={previousZoomRef}
-                    />
-                </MapContainer>
-            </Container>
-        </DeviceMapProvider>
+            {mediaMatches ? 
+                <MobileDrawer
+                    drawerBleeding={56}
+                    height={400}
+                    toggleSwipDrawer={toggleSwipDrawer}
+                    swipeOpen={swipeOpen}
+                    mobileDrawerTitle={"Device List"}
+                    disableSwipeToOpen={false}
+                    hideBackdrop={true}
+                    puller={true}
+                    renderChildren={
+                        () => <MobileContent data={mapDevices ? mapDevices.data : []}/>
+                    }
+                />
+                :
+                <DeviceMapDrawer 
+                    drawerOpen={drawerOpen} 
+                    mapLoading={mapLoading}
+                    mapDevices={mapDevices ? mapDevices.data : []}
+                />
+            }
+            <Map 
+                navDrawerOpen={drawerOpen} 
+                mobileOpen={swipeOpen}
+                mapDevices={mapDevices ? mapDevices.data : []}
+                mapLoading={mapLoading}
+                toggleSwipDrawer={toggleSwipDrawer}
+                swipeOpen={swipeOpen}
+            />
+        </DeviceMapProvider >
     )
 };
 

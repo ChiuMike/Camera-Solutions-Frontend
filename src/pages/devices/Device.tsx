@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AxiosResponse, RequestMethod } from "../../apis/Api";
 import { ApiUrl, ReadIotDevicesResponse, IDeviceDto } from "../../apis/device";
-import { DrawerHeader } from "../../components/drawer/Drawer.styles";
+import { DrawerHeader } from "../../components/drawer/style/Drawer.styles";
 import ErrorBar from "../../components/helpers/ErrorBar";
 import Navigation from "../../components/navigation/Navigation";
 import { ControllerContainer, Table } from "../../components/table";
