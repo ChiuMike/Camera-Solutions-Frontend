@@ -34,9 +34,6 @@ export const DeviceTableRoot = MUI.styled(MUI.Box, { shouldForwardProp: (prop) =
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
-            "& .filter-btn": {
-                display: "none",
-            }
         }
     },
     "& .table-container": {
@@ -79,26 +76,23 @@ export const DeviceTableRoot = MUI.styled(MUI.Box, { shouldForwardProp: (prop) =
             width: '100%',
             borderBottom: "1px solid #e0e0e0",
             display: "grid",
-            gridTemplateRows: "minmax(auto, 40%) minmax(auto, 60%)",
+            gridTemplateRows: "minmax(auto, 50%) minmax(auto, 50%)",
             gridTemplateColumns: "auto",
             "& .title-container": {
-                padding: "0px 0px 0px 0px",
+                padding: "0px 12px",
                 display: "flex",
                 alignItems: "center",
                 "& .MuiTypography-root": {
                     fontWeight: 900,
-                    color: "#010C0F",
-                    fontSize: "18px",
+                    color: "#02759F",
+                    fontSize: "16px",
                     lineHeight: "140%",
                 }
             },
             "& .search-container": {
-                display: "grid",
-                gridTemplateColumns: "minmax(auto, 80%) minmax(auto, 20%)",
-                gap: '4px',
-                "& .filter-btn": {
-                    display: "flex",
-                }
+                paddingRight: "0px",
+                display: "block",
+                padding: "0px 12px",
             }
         },
 	}

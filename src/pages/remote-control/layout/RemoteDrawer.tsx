@@ -24,7 +24,7 @@ const RemoteDrawer = ({navDrawerOpen}: RemoteDrawerBaseProps) => {
                 toggleSwipDrawer={toggleSwipDrawer}
                 swipeOpen={swipeOpen}
                 mobileDrawerTitle={"Filter"}
-                disableSwipeToOpen={true}
+                disableSwipeToOpen={false}
                 hideBackdrop={false}
                 puller={false}
                 renderChildren={

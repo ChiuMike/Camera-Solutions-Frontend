@@ -12,9 +12,7 @@ import { useAsyncChannelState } from "../../context/AsyncChannelStateProvider";
 import useClick from "../../../../hooks/useClick";
 
 const DrawerContent: FC = () => {
-
-    const mediaMatches = MUI.useMediaQuery('(max-width:770px)');
-
+    
     const { selectedChannel, handleIntoChannel, handleLeaveChannel } = useClientChannelsState();
     const { channelData, handleListChannel, handleDeleteChannel, deleteCount, handleClearDeleteCount } = useAsyncChannelState();
 

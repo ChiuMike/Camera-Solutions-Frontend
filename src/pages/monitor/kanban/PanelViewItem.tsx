@@ -1,25 +1,20 @@
 import { useSortable } from "@dnd-kit/sortable";
 import * as MUI from "@mui/material";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import * as MuiIcons from "@mui/icons-material/";
-import { MonitorPanelItems } from "../../video-upload/type/type";
 import { MonitorView } from "../style/MonitorWall.styles";
-
-const videos = [
-    "/video/driving.mp4",
-    "/video/driving-on-road.mp4",
-    "/video/driving.mp4",
-    "/video/girl-run.mp4",
-    "/video/night-car.mp4",
-]
+import { PanelItem } from "../type/board";
+import { useBoardData } from "../context/ClientProvider";
 
 interface PanelViewItemBaseProps {
     itemIndex: number;
-    panelItem: MonitorPanelItems;
+    panelItem: PanelItem;
 };
 
 const PanelViewItem: FC<PanelViewItemBaseProps> = ({itemIndex, panelItem}) => {
+
+    const mediaMatches = MUI.useMediaQuery('(max-width:770px)');
 
     const {
         setNodeRef,
@@ -30,9 +25,22 @@ const PanelViewItem: FC<PanelViewItemBaseProps> = ({itemIndex, panelItem}) => {
         attributes,
     } = useSortable({
         id: panelItem.id,
-        data: ({...panelItem} as MonitorPanelItems),
-        disabled: false
+        data: ({...panelItem} as PanelItem),
+        disabled: mediaMatches,
     });
+
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    const { handleMobileViewClick } = useBoardData();
+
+    useEffect(() => {
+        if(videoRef.current === null) return;
+        videoRef.current.src = panelItem.video
+
+        return () => {
+            if(videoRef.current !== null) videoRef.current.src = ""
+        }
+    }, [panelItem.content])
 
     return (
         <MonitorView
@@ -56,36 +64,27 @@ const PanelViewItem: FC<PanelViewItemBaseProps> = ({itemIndex, panelItem}) => {
                 {...listeners}
                 {...attributes}
             >
-                <MuiIcons.DragIndicator />
+                {
+                    !mediaMatches ?
+                    <MuiIcons.DragIndicator />
+                    :
+                    <MUI.IconButton onClick={()=> handleMobileViewClick(itemIndex, panelItem.content)}>
+                        <MuiIcons.Close />
+                    </MUI.IconButton>   
+                }
+                
             </MUI.Box>
             <video 
                 muted={true} 
                 autoPlay 
                 loop
+                ref={videoRef}
             >
                 <source 
-                    src ={`${videos[Math.floor(Math.random() * 5)]}`}
+                    // src ={`${panelItem.video}`}
                     type="video/mp4"
                 />
             </video>
-            {/* <MUI.Box className="view-header">
-                <MUI.Box 
-                    className="drag-handler"
-                    {...listeners}
-                    {...attributes}
-                >
-                    <MuiIcons.DragHandle />
-                </MUI.Box>
-            </MUI.Box> */}
-            {/* <MUI.Box className="view-contnet">
-                <video muted={true} autoPlay loop>
-                    <source 
-                        src ={`${videos[0]}` }
-                        type="video/mp4"
-                    />
-                </video>
-            </MUI.Box> */}
-            {/* <MuiIcons.OndemandVideo /> */}
         </MonitorView>
     )
 };

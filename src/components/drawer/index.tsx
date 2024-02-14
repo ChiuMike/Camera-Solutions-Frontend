@@ -1,5 +1,6 @@
-import SubDrawer from "./SubDrawer";
+import SubDrawer, { PatrolSubDrawer } from "./SubDrawer";
 
 export {
-    SubDrawer
+    SubDrawer,
+    PatrolSubDrawer
 }

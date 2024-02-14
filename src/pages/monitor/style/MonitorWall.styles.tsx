@@ -7,7 +7,7 @@ const mobileOpenMixin = (theme: MUI.Theme): MUI.CSSObject => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.standard,
     }),
-    height: "calc(100vh - 520px)",
+    height: "calc(100vh - 420px)",
 });
 
 const mobileCloseMixin = (theme: MUI.Theme): MUI.CSSObject => ({
@@ -19,9 +19,9 @@ const mobileCloseMixin = (theme: MUI.Theme): MUI.CSSObject => ({
 });
 
 export const Container = MUI.styled(MUI.Box, { shouldForwardProp: (prop) => 
-    prop !=='mobileOpen' && prop !== 'navDrawerOpen' && prop !== "mediaMatches" && prop !== "gridValue" && prop !== "isFocus"})
-    <{mobileOpen: boolean, navDrawerOpen: boolean, mediaMatches: boolean, gridValue: number, isFocus: boolean}>
-    (({ theme, mobileOpen, navDrawerOpen, mediaMatches, gridValue, isFocus}) => ({
+    prop !=='mobileOpen' && prop !== 'navDrawerOpen' && prop !== "mediaMatches" && prop !== "gridValue"})
+    <{mobileOpen: boolean, navDrawerOpen: boolean, mediaMatches: boolean, gridValue: number}>
+    (({ theme, mobileOpen, navDrawerOpen, mediaMatches, gridValue}) => ({
         position: 'relative',
         height: `calc(100vh - 64px)`,
         marginTop: 64,
@@ -35,8 +35,24 @@ export const Container = MUI.styled(MUI.Box, { shouldForwardProp: (prop) =>
             borderBottom: "1px solid rgba(224, 224, 224, 1)",
             display: "flex",
             alignItems: "center",
-            flexDirection: "row-reverse",
+            justifyContent: "space-between",
+            flexDirection: "row",
             padding: "0px 12px",
+            "& .monitor-tips": {
+                display: "flex",
+                alignItems: "center",
+                gap: "4px",
+                "& .tips-text": {
+                    fontWeight: 900,
+                    fontSize: 16,
+                    color: "#9e9e9e"
+                },
+                "& .mobile-title": {
+                    fontWeight: 900,
+                    fontSize: 16,
+                    color: "#02759F",
+                }
+            },
             "& .MuiToggleButtonGroup-root": {
                 "& .MuiSvgIcon-root": {
                     color: "#02759F",
@@ -68,15 +84,10 @@ export const Container = MUI.styled(MUI.Box, { shouldForwardProp: (prop) =>
                 height: '100%',
                 display: "grid",
                 gridTemplateColumns: `repeat(${gridValue}, 1fr)`,
-                //gridTemplateColumns: `repeat(auto-fill, minmax(300px, 1fr))`,
                 gridTemplateRows: `repeat(${gridValue}, 1fr)`,
                 gridAutoRows: "auto",
                 gridAutoFlow: "dense",
                 gap: "16px",
-                // gridTemplateColumn: "repeat(auto-fit, minmax(300px, 1fr))",
-                // gridAutoRows: "150px",
-                // gridAutoFlow: "dense"
-                // gridTemplateRows: "repeat(2, 1fr)",
             },
         },
         transition: theme.transitions.create('margin', {
@@ -100,14 +111,18 @@ export const Container = MUI.styled(MUI.Box, { shouldForwardProp: (prop) =>
         }),
         [theme.breakpoints.down("md")] : {
             marginLeft: '0px',
-            width: '100vw',
-            height: `calc(100vh - 120px)`,
-            // ...((mobileOpen && mediaMatches) && {
-            //     ...mobileOpenMixin(theme),
-            // }),
-            // ...((!mobileOpen && mediaMatches) && {
-            //     ...mobileCloseMixin(theme),
-            // }),
+            width: '100%',
+            ...((mobileOpen) && {
+                ...mobileOpenMixin(theme),
+            }),
+            ...((!mobileOpen) && {
+                ...mobileCloseMixin(theme),
+            }),
+            "& .monitor-header": {
+                "& .grid-16": {
+                    display: "none"
+                }
+            },
             "& .monitor-wall": {
                 height: '100%',
                 width: '100%',
@@ -136,8 +151,6 @@ export const MonitorView = MUI.styled(MUI.Box, {shouldForwardProp: (prop) => pro
     boxShadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;",
     position: "relative",
     overflow: "hidden",
-    // gridColumn: "span 2",
-    // gridRow: "span 2",
     "video": {
         backgroundColor: "#111111",
         objectFit: "fill",
@@ -153,6 +166,7 @@ export const MonitorView = MUI.styled(MUI.Box, {shouldForwardProp: (prop) => pro
         "& .MuiTypography-root": {
             color: "#FFF",
             fontWeight: "bold",
+            fontSize: "18px",
         }
     },
     "& .drag-handler": {
@@ -163,15 +177,15 @@ export const MonitorView = MUI.styled(MUI.Box, {shouldForwardProp: (prop) => pro
         alignItems: "center",
         justifyContent: "center",
         cursor: isDraggable ? 'grab' : 'not-allowed',
-        width: '40px',
-        height: "40px",
+        width: '50px',
+        height: "50px",
         borderRadius: "5px",
         "&:hover": {
             boxShadow: "0 0px 0px 2px #4c9ffe",
         },
         "& .MuiSvgIcon-root": {
             color: "#FFF",
-            fontSize: "32px"
+            fontSize: "40px"
         }
     },
     "&:hover": {
@@ -180,6 +194,27 @@ export const MonitorView = MUI.styled(MUI.Box, {shouldForwardProp: (prop) => pro
             zIndex: 2
         },
     },
+    [theme.breakpoints.down("md")]: {
+        "& .device-name, .drag-handler": {
+            display: "flex",
+        },
+        "& .drag-handler": {
+            position: "absolute",
+            top: "8px",
+            right: "8px",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: isDraggable ? 'grab' : 'not-allowed',
+            width: '32px',
+            height: "32px",
+            borderRadius: "5px",
+            boxShadow: "0 0px 0px 2px #4c9ffe",
+            "& .MuiSvgIcon-root": {
+                color: "#FFF",
+                fontSize: "24px"
+            }
+        },
+    }
 }));
 
 export const DropZone = MUI.styled(MUI.Box, {shouldForwardProp: (prop) => prop !== "isOver" && prop !== "isFocus"})<{isOver: boolean, isFocus: boolean}>(({ theme, isOver, isFocus}) => ({
@@ -189,10 +224,10 @@ export const DropZone = MUI.styled(MUI.Box, {shouldForwardProp: (prop) => prop !
     alignItems: "center",
     justifyContent: "center",
     boxShadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;",
-    // gridColumn: isFocus ? 'span 4' : "span 1",
-    // gridRow: isFocus ? 'span 4' : "sapn 1",
+    height: isFocus ? "95%" :"100%",
+    width: isFocus ? "95%" : "100%",
     "& .MuiSvgIcon-root": { 
         color: '#bdbdbd',
         fontSize: '48px',
-    }
+    },
 }));

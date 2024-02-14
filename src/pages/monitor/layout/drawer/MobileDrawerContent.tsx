@@ -1,21 +1,34 @@
 import { FC } from "react";
-import { IDeviceDto } from "../../../../apis/device";
 import { MobileContentRoot, MonitorDeviceCard } from "../../style/MonitorDrawer.styles";
 import * as MUI from "@mui/material";
 import * as MuiIcons from "@mui/icons-material/";
 import { Search, StyledInputBase, SearchIconWrapper } from "../../../../components/form";
 import { useEventChange } from "../../../../hooks/FormHooks";
 import { TransitionGroup } from "react-transition-group";
+import { useBoardData, useLayoutState } from "../../context/ClientProvider";
+import { DeviceFilter } from "../../../../components/filter";
 
 interface MobileDrawerContent {
-    iotDevices: IDeviceDto[];
+    toggleSwipDrawer: ()=> void;
 }
 
-const MobileDrawerContent: FC<MobileDrawerContent> = ({iotDevices}) => {
+const MobileDrawerContent: FC<MobileDrawerContent> = ({toggleSwipDrawer}) => {
 
     const [handleInputChange, inputFields, setInputFields] = useEventChange({ search: ''});
 
+    const { anchorEl, deviceFilter, handleDeviceFilter, handleMenuClose, handleMenuOpen } = useLayoutState();
+
+    const { boardData, handleMobileDeviceClick } = useBoardData();
+
     return (
+        <>
+        <DeviceFilter 
+            anchorEl={anchorEl} 
+            handleMenuClose={handleMenuClose} 
+            open={Boolean(anchorEl)} 
+            deviceFilter={deviceFilter}
+            handleDeviceFilter={handleDeviceFilter}
+        />
         <MobileContentRoot>
             <MUI.Box className="mobile-header">
                 <MUI.Box />
@@ -34,7 +47,7 @@ const MobileDrawerContent: FC<MobileDrawerContent> = ({iotDevices}) => {
                     />
                 </Search>
                 <MUI.Box className="search-btn">
-                    <MUI.IconButton>
+                    <MUI.IconButton onClick={handleMenuOpen}>
                         <MUI.Badge 
                             color="success" 
                             badgeContent={0} 
@@ -44,7 +57,14 @@ const MobileDrawerContent: FC<MobileDrawerContent> = ({iotDevices}) => {
                                 horizontal: 'right',
                             }}
                         >
-                            <MuiIcons.Tune /> 
+                            {deviceFilter === "" ? 
+                                <MuiIcons.Tune /> 
+                                : 
+                                deviceFilter === "salute" ? 
+                                    <img src="/images/salute-removebg.png" />
+                                        :
+                                    <img src="/images/panther_bg.png" />
+                            }
                         </MUI.Badge>
                     </MUI.IconButton>
                 </MUI.Box>
@@ -53,17 +73,20 @@ const MobileDrawerContent: FC<MobileDrawerContent> = ({iotDevices}) => {
                 <MUI.Box className="content">
                     <TransitionGroup>
                         {
-                        iotDevices
+                        boardData["device"]
                         .filter((device, index) => {
                             if(inputFields.search === "") return device;
-                            return device.name.toLocaleLowerCase().includes(inputFields.search)
+                            return device.content.toLocaleLowerCase().includes(inputFields.search)
+                        })
+                        .filter((device) => {
+                            return device.content.toLocaleLowerCase().startsWith(deviceFilter)
                         })
                         .map((device, index) => 
                             <MUI.Collapse key={index}>
                                 <MonitorDeviceCard
                                     variant="outlined" 
                                     key={index} 
-                                    isDraggable={true}
+                                    isDraggable={false}
                                     isdragging={false}
                                     isSalute={index % 2 === 0}
                                 >
@@ -71,7 +94,7 @@ const MobileDrawerContent: FC<MobileDrawerContent> = ({iotDevices}) => {
                                         <MUI.CardHeader
                                             avatar={
                                                 <>
-                                                {device.name.toLocaleLowerCase().includes("salute") ? 
+                                                {device.content.toLocaleLowerCase().includes("salute") ? 
                                                     <MUI.Avatar variant="rounded" src="/images/salute-removebg.png" />
                                                     :
                                                     <MUI.Avatar 
@@ -91,14 +114,14 @@ const MobileDrawerContent: FC<MobileDrawerContent> = ({iotDevices}) => {
                                                     <MUI.Divider orientation="vertical" variant="middle" flexItem />
                                                     <MUI.IconButton 
                                                         aria-label="settings"
-                                                        // onClick={() => handleSelectDevice(device.name, "car")}
+                                                        onClick={() => handleMobileDeviceClick(index, device.content, toggleSwipDrawer)}
                                                         sx={{color: "#02759F"}}
                                                     >
                                                         <MuiIcons.Videocam />
                                                     </MUI.IconButton>
                                                 </MUI.Stack>
                                             }
-                                            title={device.name}
+                                            title={device.content}
                                         />
                                     </MUI.Box>
                                 </MonitorDeviceCard>
@@ -107,7 +130,9 @@ const MobileDrawerContent: FC<MobileDrawerContent> = ({iotDevices}) => {
                     </TransitionGroup>
                 </MUI.Box>
             </MUI.Box>
+            <MUI.Box className="mobile-footer" />
         </MobileContentRoot>
+        </>
     )
 };
 

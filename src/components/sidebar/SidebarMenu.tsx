@@ -88,28 +88,6 @@ const SidebarMenu: FC<SidebarBaseProps> = ({drawerOpen: open, handleSignout}) =>
                 <MUI.List
                     component="nav" 
                     aria-label="main sidebar"
-                    className="sidebar-top-list"
-                >
-                    {sidebarTop.map((mainMenu: ISidebarMenu, i) => 
-                        <MUI.Tooltip title={!open ? mainMenu.name : '' } aria-label={mainMenu.name} placement="right" key={i}>
-                            <MUI.ListItemButton
-                                component={Link}
-                                key={i}
-                                to={mainMenu.uri}
-                                selected={params.pathname.includes(mainMenu.uri) }
-                            >
-                                <MUI.ListItemIcon>
-                                    <SetSidebarIcon name={mainMenu.name} />
-                                </MUI.ListItemIcon>
-                                <MUI.ListItemText>{(mainMenu.name)}</MUI.ListItemText>
-                            </MUI.ListItemButton>
-                        </MUI.Tooltip>
-                    )}
-                </MUI.List>
-                <MUI.Divider sx={{mt: 2}} />
-                <MUI.List
-                    component="nav" 
-                    aria-label="main sidebar"
                     className="sidebar-gpsPtt"
                     subheader={<SidebarSubheader open={open}>{"GPS & Channel"}</SidebarSubheader>}
                 >
@@ -163,6 +141,7 @@ const SidebarMenu: FC<SidebarBaseProps> = ({drawerOpen: open, handleSignout}) =>
                     component="nav" 
                     aria-label="main sidebar"
                     className="sidebar-gpsPtt"
+                    subheader={<SidebarSubheader open={open}>{"Settings"}</SidebarSubheader>}
                 >
                     {Setting.map((mainMenu: ISidebarMenu, i) => 
                         <MUI.Tooltip title={!open ? mainMenu.name : '' } aria-label={mainMenu.name} placement="right" key={i}>

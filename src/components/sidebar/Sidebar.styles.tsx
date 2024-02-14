@@ -27,7 +27,7 @@ export const SidebarContainer = MUI.styled(MUI.Box)<MUI.BoxProps>(({theme}) => (
     "& .sidebar-header": {
         flexShrink: 0,
         flexGrow: 0,
-        flexBasis: '32px',
+        flexBasis: '16px',
     },
     "& .header": {
         flexGrow: 2,

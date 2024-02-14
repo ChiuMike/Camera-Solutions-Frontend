@@ -123,7 +123,7 @@ export const TimeLineContainer = MUI.styled(MUI.Box,
                         gap: '1px',
                         backgroundSize: "auto auto",
                         backgroundColor: "rgba(255,255,255,0)",
-                        backgroundImage: "repeating-linear-gradient(135deg, transparent, transparent 10px, rgba(255,255,255,0.15) 10px, rgba(255,255,255,0.15) 20px)",
+                        backgroundImage: "repeating-linear-gradient(135deg, transparent, transparent 12550px, rgba(255,255,255,0.15) 10px, rgba(255,255,255,0.15) 20px)",
                     },
                     "& .draggable-area-right": {
                         position: "absolute",

@@ -1,6 +1,7 @@
 import { FC } from "react";
-import { useBoardData } from "../context/ClientProvider";
+import { findBoardSectionContainer, useBoardData } from "../context/ClientProvider";
 import PanelDeviceItem from "./PanelDeviceItem";
+import PanelViewItem from "./PanelViewItem";
 
 interface IPanelItemOverlay {
     id: string;
@@ -10,30 +11,25 @@ const PanelDeviceOverlay: FC<IPanelItemOverlay> = ({id}) => {
     
     const { boardData } = useBoardData();
 
-    const cardParent = boardData.boardPanels.find((panel) => {
-        return panel.panelItems.find((item) => {
-          return item.id === id;
-        });
-    });
+    const activeContainer = findBoardSectionContainer(boardData, id);
 
-    if (cardParent !== undefined) {
-        const cardIndex = cardParent.panelItems.findIndex((item) => {
-            return item.id === id;
-        });
-        const card = cardParent.panelItems[cardIndex];
+    if(activeContainer === undefined) return null;
 
-        return (
-            <>
-                <PanelDeviceItem
-                    itemIndex={cardIndex}
-                    panelItem={card}
-                />
-            </>
-        )
-
-    }
+    const activeIndex = boardData[activeContainer].findIndex(
+        (task) => task.id === id
+    );
+    
     return (
         <>
+        {
+            activeContainer === "device" 
+            ? 
+            <PanelDeviceItem itemIndex={activeIndex} panelItem={boardData["device"][activeIndex]} />
+            :
+            <PanelViewItem 
+                itemIndex={activeIndex} panelItem={boardData["monitor"][activeIndex]}
+            />
+        }
         </>
     )
 };

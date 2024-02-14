@@ -10,8 +10,8 @@ import { HistoryDeviceCard } from "../style/HistoryDrawerContent.styles";
 import { TransitionGroup } from "react-transition-group";
 import { useEventChange } from "../../../hooks/FormHooks";
 import { TrackStateContext, TrackState } from "../context/TrackStateProvider";
-import DeviceFilter from "./deviceFilter";
 import SearchTimeline from "./SearchTimeline";
+import { DeviceFilter } from "../../../components/filter";
 
 export interface MobileDrawerContentBaseProps {
     data: IDeviceDto[];
@@ -25,7 +25,7 @@ const MobileDrawerContent: FC<MobileDrawerContentBaseProps> = ({ data, getHistor
 
     const containerRef = useRef(null);
 
-    const { timelineOpen, handleSelectDevice, deviceFilter } = useContext(TrackStateContext) as TrackState;
+    const { timelineOpen, handleSelectDevice, deviceFilter, handleDeviceFilter } = useContext(TrackStateContext) as TrackState;
 
     const [handleInputChange, inputFields, setInputFields] = useEventChange({ search: ''});
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -34,14 +34,20 @@ const MobileDrawerContent: FC<MobileDrawerContentBaseProps> = ({ data, getHistor
         setAnchorEl(event.currentTarget);
     };
 
+    const handleMenuClose = () => {
+        setAnchorEl(null)
+    }
+
     return (
         <>
         <MUI.Slide direction="right" in={!timelineOpen} appear={false} container={containerRef.current}>
             <MobileDrawerRoot sx={{display: timelineOpen ? "none": 'grid'}}>
                 <DeviceFilter 
                     anchorEl={anchorEl} 
-                    setAnchorEl={setAnchorEl} 
+                    handleMenuClose={handleMenuClose} 
                     open={Boolean(anchorEl)} 
+                    deviceFilter={deviceFilter}
+                    handleDeviceFilter={handleDeviceFilter}
                 />
                 <MUI.Box className="mobile-header">
                     <MUI.Box />

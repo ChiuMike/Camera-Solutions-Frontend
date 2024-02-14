@@ -13,10 +13,6 @@ export interface IIcon {
 
 export const sidebarTop: ISidebarMenu[] = [
     {
-        name: 'Dashboard',
-        uri: '/dashboard',
-    },
-    {
         name: 'Users',
         uri: '/users',
     },
@@ -58,15 +54,11 @@ export const DeviceManagement: ISidebarMenu[] = [
         name: 'Video Upload',
         uri: '/video-upload',
     },
-    {
-        name: 'Event Log',
-        uri: '/event-log',
-    },
 ];
 
 export const Setting: ISidebarMenu[] = [
     {
-        name: 'Settings',
-        uri: '/settings',
+        name: 'Users',
+        uri: '/users',
     },
 ];

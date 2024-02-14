@@ -1,11 +1,12 @@
 export type Status = 'device' | 'monitor';
 
-export type Task = {
+export type PanelItem = {
   id: string;
-  title: string;
+  content: string;
   status: Status;
+  video: string;
 };
 
 export type BoardSections = {
-  [name: string]: Task[];
+    [name: string]: PanelItem[];
 };

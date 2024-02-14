@@ -8,11 +8,11 @@ import { TrackState, TrackStateContext } from "../context/TrackStateProvider";
 import { HistoryDeviceCard, SideBarRoot } from "../style/HistoryDrawerContent.styles";
 import { Search, SearchIconWrapper, StyledInputBase } from "../../../components/form";
 import * as MuiIcons from "@mui/icons-material/";
-import DeviceFilter from "./deviceFilter";
 import { HistoryTimelineRoot } from "../style/MobileDrawerContent.styles";
 import SearchTimeline from "./SearchTimeline";
 import { List } from "../../../components/list";
 import { SubDrawer } from "../../../components/drawer";
+import { DeviceFilter } from "../../../components/filter";
 
 interface HistoryDrawerBaseProps {
     drawerOpen: boolean;
@@ -28,8 +28,8 @@ const HistoryDrawer: FC<HistoryDrawerBaseProps> = ({drawerOpen, navDrawerOpen, i
 
     const mediaMatches = MUI.useMediaQuery('(max-width:770px)');
 
-    const { timelineOpen, handleSelectDevice, deviceFilter } = useContext(TrackStateContext) as TrackState;
-    
+    const { timelineOpen, handleSelectDevice, deviceFilter, handleDeviceFilter } = useContext(TrackStateContext) as TrackState;
+   
     const containerRef = useRef(null);
     
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -38,6 +38,10 @@ const HistoryDrawer: FC<HistoryDrawerBaseProps> = ({drawerOpen, navDrawerOpen, i
     const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null)
+    }
 
     useEffect(() => {
         if(timelineOpen) return;
@@ -50,8 +54,10 @@ const HistoryDrawer: FC<HistoryDrawerBaseProps> = ({drawerOpen, navDrawerOpen, i
         <>
         <DeviceFilter 
             anchorEl={anchorEl} 
-            setAnchorEl={setAnchorEl} 
+            handleMenuClose={handleMenuClose} 
             open={Boolean(anchorEl)} 
+            deviceFilter={deviceFilter}
+            handleDeviceFilter={handleDeviceFilter}
         />
         <SubDrawer
             subDrawerWidth={300}

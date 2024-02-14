@@ -7,6 +7,8 @@ export const ControlFormContainer = MUI.styled(MUI.Container)(({ theme }) => ({
     rowGap: "16px",
     gridTemplateColumns: "auto",
     "& .header": {
+        width: "100%",
+        textAlign: "center",
         "& .form-title": {
             color: "#02759F",
             fontWeight: 900

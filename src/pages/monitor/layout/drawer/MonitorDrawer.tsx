@@ -1,47 +1,45 @@
 import { useState, FC, useContext } from "react";
 import * as MUI from "@mui/material";
 import * as MuiIcons from "@mui/icons-material/";
-import { IDeviceDto } from "../../../../apis/device";
 import { SubDrawer } from "../../../../components/drawer";
 import { SideBarRoot } from "../../style/MonitorDrawer.styles";
 import useClick from "../../../../hooks/useClick";
 import { Search, SearchIconWrapper, StyledInputBase } from "../../../../components/form";
-import { useEventChange } from "../../../../hooks/FormHooks";
-import { MonitorBoardPanels } from "../../../video-upload/type/type";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import { eventType } from "../../../../hooks/FormHooks";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { useDroppable } from "@dnd-kit/core";
+import { useBoardData, useLayoutState } from "../../context/ClientProvider";
+import PanelDeviceItem from "../../kanban/PanelDeviceItem";
+import { DeviceFilter } from "../../../../components/filter";
 
 interface MonitorDrawerBaseProps {
     drawerOpen: boolean;
     loading: boolean;
-    iotDevices: IDeviceDto[];
-    panelIndex: number;
-    panel: MonitorBoardPanels;
-    children: JSX.Element;
+    inputFields: { search: string};
+    handleInputChange: (event: eventType) => void;
 }
 
-const MonitorDrawer: FC<MonitorDrawerBaseProps> = ({drawerOpen: navDrawerOpen, panelIndex, iotDevices, panel, children}) => {
+const MonitorDrawer: FC<MonitorDrawerBaseProps> = ({drawerOpen: navDrawerOpen, inputFields, handleInputChange}) => {
 
-    const {
-        isDragging,
-        over,
-        isOver,
-        setNodeRef,
-        transition,
-        transform,
-      } = useSortable({
-        id: panel.id,
-        disabled: true
-    });
+    const { isOver, setNodeRef } = useDroppable({ id: "device" });
 
     const mediaMatches = MUI.useMediaQuery('(max-width:770px)');
 
     const [handleSubDrawer, subDrawerOpen, setSubDrawerOpen] = useClick();
 
-    const [handleInputChange, inputFields, setInputFields] = useEventChange({ search: ''});
+    const { boardData } = useBoardData();
+
+    const { anchorEl, deviceFilter, handleDeviceFilter, handleMenuClose, handleMenuOpen } = useLayoutState();
 
     return (
         <>
+        <DeviceFilter 
+            anchorEl={anchorEl} 
+            handleMenuClose={handleMenuClose} 
+            open={Boolean(anchorEl)} 
+            deviceFilter={deviceFilter}
+            handleDeviceFilter={handleDeviceFilter}
+        />
         <SubDrawer
             subDrawerWidth={260}
             subDrawerOpen={subDrawerOpen}
@@ -66,7 +64,7 @@ const MonitorDrawer: FC<MonitorDrawerBaseProps> = ({drawerOpen: navDrawerOpen, p
                             />
                         </Search>
                         <MUI.Box className="search-btn">
-                            <MUI.IconButton>
+                            <MUI.IconButton onClick={handleMenuOpen}>
                                 <MUI.Badge 
                                     color="success" 
                                     badgeContent={0} 
@@ -76,24 +74,49 @@ const MonitorDrawer: FC<MonitorDrawerBaseProps> = ({drawerOpen: navDrawerOpen, p
                                         horizontal: 'right',
                                     }}
                                 >
-                                    <MuiIcons.Tune /> 
+                                    {deviceFilter === "" ? 
+                                        <MuiIcons.Tune /> 
+                                        : 
+                                        deviceFilter === "salute" ? 
+                                            <img src="/images/salute-removebg.png" />
+                                                :
+                                            <img src="/images/panther_bg.png" />
+                                    }
                                 </MUI.Badge>
                             </MUI.IconButton>
                         </MUI.Box>
                     </MUI.Box>
                     <MUI.Box className="device-list">
-                        <MUI.Box 
-                            className={`content ${panel.id}`}
-                            key={panelIndex}
-                            ref={setNodeRef}
-                            sx={{
-                                transform: CSS.Transform.toString(transform),
-                                transition,
-                                background: isOver ? "#E3FCEF" : "#FFF"
-                            }}
+                        <SortableContext
+                            items={[...boardData['device']]}
+                            strategy={verticalListSortingStrategy}
                         >
-                            {children}
-                        </MUI.Box>
+                            <MUI.Box 
+                                className={`content device`} 
+                                ref={setNodeRef}
+                                sx={{
+                                    background: isOver ? "#E3FCEF" : "#FFF"
+                                }}
+                            >
+                                {
+                                    boardData["device"]
+                                    .filter((device) => {
+                                        if(inputFields.search === "") return device;
+                                        return device.content.toLocaleLowerCase().includes(inputFields.search.toLocaleLowerCase())
+                                    })
+                                    .filter((device) => {
+                                        return device.content.toLocaleLowerCase().startsWith(deviceFilter)
+                                    })
+                                    .map((panelItem, itemIndex) => 
+                                        <PanelDeviceItem
+                                            key={itemIndex}
+                                            itemIndex={itemIndex}
+                                            panelItem={panelItem} 
+                                        />
+                                    )
+                                }
+                            </MUI.Box>
+                        </SortableContext>
                     </MUI.Box>
                 </SideBarRoot>
             }

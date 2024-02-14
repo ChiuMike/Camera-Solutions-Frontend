@@ -1,14 +1,14 @@
 import { useSortable } from "@dnd-kit/sortable";
 import * as MUI from "@mui/material";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import * as MuiIcons from "@mui/icons-material/";
-import { MonitorPanelItems } from "../../video-upload/type/type";
 import { MonitorDeviceCard } from "../style/MonitorDrawer.styles";
+import { PanelItem } from "../type/board";
 
 interface PanelDeviceItemBaseProps {
     itemIndex: number;
-    panelItem: MonitorPanelItems;
+    panelItem: PanelItem;
 };
 
 const PanelDeviceItem: FC<PanelDeviceItemBaseProps> = ({itemIndex, panelItem}) => {
@@ -22,8 +22,6 @@ const PanelDeviceItem: FC<PanelDeviceItemBaseProps> = ({itemIndex, panelItem}) =
         attributes,
     } = useSortable({
         id: panelItem.id,
-        data: ({...panelItem} as MonitorPanelItems),
-        disabled: false
     });
 
     return (

@@ -5,7 +5,6 @@ import { DrawerHeader } from "../../components/drawer/style/Drawer.styles";
 import { TextField } from "../../components/form";
 import { useEventChange } from "../../hooks/FormHooks";
 import * as MuiIcons from '@mui/icons-material';
-import useClick from "../../hooks/useClick";
 import { HomeMainBox, LoginImg, HomeRightSide, LoginBox, LanguageForm, LoginInputForm, HomeLeftSide } from "./Home.styles";
 import { LoadingSpinerButton } from "../../components/button";
 import { useAxios } from "../../hooks/useAxios";
@@ -26,8 +25,13 @@ const Home: React.FC<HomeBaseProps> = ({ setTokens }) => {
     const [language, setLanguage] = React.useState('en');
     const hasToken = localStorage.getItem("token");
 
-    const [ handleInputChange, inputFields ] = useEventChange({ account: "", password: "" });
-    const [ handlePasswordClick, isShow ] = useClick();
+    const [ handleInputChange, inputFields ] = useEventChange({ account: "mikechiu8512@gmail.com", password: "secret123" });
+    const [ isShow, setIsShow ] = React.useState(true);
+
+    const handlePasswordClick = () => {
+        setIsShow((prev)=> !prev)
+    }
+
 
     const {loading, makeRequest: userSignin, error} = useAxios<UserLoginResponse>({
         onSuccess: (response) => {
@@ -43,7 +47,7 @@ const Home: React.FC<HomeBaseProps> = ({ setTokens }) => {
                 bufferRef.current = true;
                 setTimeout(() =>{
                     setTokens(true);
-                    history.push({pathname:"/dashboard", state: { isLogin }})
+                    history.push({pathname:"/map", state: { isLogin }})
                 }, 1500);
             }
         }

@@ -6,14 +6,13 @@
     display: none !important;
 }
 
-.patrol-map path.leaflet-interactive {
-    /* stroke-dasharray: 30;
+.patrol-map path.leaflet-interactive.patrol-line {
+    stroke-dasharray: 30;
     stroke-dashoffset: 60;
-    animation: dash 3s linear 1s infinite; */
-    stroke-width: 4;
+    animation: dash 3s linear 1s infinite;
+    stroke-width: 10;
     stroke-linecap: round;
     stroke-linejoin: round;
-    opacity: 0.8;
     filter: drop-shadow(1px 1px 0 #fff) drop-shadow(-1px -1px 0 #FFF) drop-shadow(1px -1px 0 #FFF) drop-shadow(-1px 1px 0 #fff);
 }
 

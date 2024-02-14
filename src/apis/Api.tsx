@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosInstance } from "axios";
 import { Method } from "axios";
 
 export const REQUEST_METHOD: Method = 'get';
-export const defaultBaseUrl = "http://localhost:8082/";
+export const defaultBaseUrl = "http://52.90.227.149:8080/";
 export const DEVELOPMENT = "development";
 export const PRODUCTION = "production";
 export const domain = window.location.host;

@@ -3,14 +3,10 @@ import { Common } from "../Api";
 export type IPatrolDto = {
    patrolId: string;
    patrolType: string;
-   distance: string;
    patrolman: string;
    deviceName: string;
-   checkNums: string;
-   gps: boolean;
-   network: string;
-   battery: string;
-   temperature: string;
+   vehicleNumber: string;
+   progress: number;
    created_at: string;
 }
 

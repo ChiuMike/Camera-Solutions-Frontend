@@ -27,7 +27,7 @@ const PatrolRoute: FC<PatrolRouteBaseProps> = ({patrolGPS, setCompleted}) => {
 
     const handleStart = useCallback(() => {
 
-        map.setView([Number(patrolGPS[0].lat), Number(patrolGPS[0].lng)], 18, { animate: true });
+        map.setView([Number(patrolGPS[0].lat), Number(patrolGPS[0].lng)], 16, { animate: true });
 
         instanceRef.current.addTo(map);
 

@@ -12,6 +12,7 @@ export const SideBarRoot = MUI.styled(MUI.Box)<MUI.BoxProps>(({ theme }) => ({
 		height: '100%',
         display: "grid",
         gridTemplateColumns: ".2fr 4fr 1fr",
+        padding: '0px 6px',
         "& .search-input": {
             width: '98%',
             margin: "auto 0",
@@ -47,12 +48,12 @@ export const SideBarRoot = MUI.styled(MUI.Box)<MUI.BoxProps>(({ theme }) => ({
     "& .device-list": {
         height: '100%',
     	width: '100%',
-        padding: '0px 8px',
+        padding: '0px 10px',
         overflowY: 'scroll',
         "& .content": {
 			width: '100%',
             "& .monitor-device": {
-                marginBottom: "2px",
+                marginBottom: "6px",
             },
 			'&:first-of-type': {
                 marginTop: '0px',
@@ -70,7 +71,7 @@ export const MobileContentRoot = MUI.styled(MUI.Box)<MUI.BoxProps>(({ theme }) =
     width: '100%',
     height: '100%',
     display: "grid",
-    gridTemplateRows: "minmax(auto, 80px) minmax(auto, auto)",
+    gridTemplateRows: "minmax(auto, 80px) minmax(auto, auto) minmax(auto, 20px)",
     "& .mobile-header": {
         display: 'grid',
         width: '100%',
@@ -118,6 +119,11 @@ export const MobileContentRoot = MUI.styled(MUI.Box)<MUI.BoxProps>(({ theme }) =
         "& .content": {
 			width: '100%'
 		},
+    },
+    "& .mobile-footer": {
+        width: '100%',
+		height: '100%',
+        borderTop: '1px solid #f5f5f5'
     }
 }));
 
@@ -131,9 +137,9 @@ export const MonitorDeviceCard = MUI.styled(MUI.Card, {shouldForwardProp: (prop)
         background: isSalute ? "#F5F5F5": "#FFF",
     }),
     ...(isdragging && {
-        background: "#fafafa",
+        background: "#FFF",
     }),
-    opacity : isdragging ? 0.4 : 1,
+    opacity : isdragging ? 0.55 : 1,
     transformOrigin: "50% 50%",
     boxShadow: isdragging ? "rgb(63 63 68 / 5%) 0px 2px 0px 2px, rgb(34 33 81 / 15%) 0px 2px 3px 2px" : "none",
 	"& .card-action": {
@@ -160,13 +166,6 @@ export const MonitorDeviceCard = MUI.styled(MUI.Card, {shouldForwardProp: (prop)
                 "& .MuiIconButton-root": {
                     borderRadius: "5px",
                     cursor: isdragging ? "grabbing" : "grab",
-                    "&:hover": {
-                        backgroundColor: "#00bcd4",
-                        "& .MuiSvgIcon-root": {
-                            color: "#FFF"
-                        },
-                        transition: "all 0.3s",
-                    }
                 },  
 			},
 			"& .MuiCardHeader-title": {
@@ -184,4 +183,21 @@ export const MonitorDeviceCard = MUI.styled(MUI.Card, {shouldForwardProp: (prop)
 			}
 		},
 	},
+    [theme.breakpoints.up("md")]: {
+        "& .card-action": {
+            "& .MuiCardHeader-root": {
+                "& .MuiCardHeader-action": {
+                    "& .MuiIconButton-root": {
+                        "&:hover": {
+                            backgroundColor: "#00bcd4",
+                            "& .MuiSvgIcon-root": {
+                                color: "#FFF"
+                            },
+                            transition: "all 0.3s",
+                        }
+                    },  
+                },
+            }
+        }
+    }
 }));

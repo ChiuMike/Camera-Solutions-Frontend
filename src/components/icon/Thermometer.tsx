@@ -1,49 +1,6 @@
 import * as MUI from "@mui/material";
 import { FC } from "react";
 
-export const Thermometer = MUI.styled("span", { shouldForwardProp:  (prop) => prop !== 'temp' })<{ temp :  string,}>(({ theme, temp }) => ({
-	margin: "50px auto",
-    width: "22px",
-    height: "150px",
-    display: "block",
-    font: "bold 14px/152px helvetica, arial, sans-serif",
-    textIndent: "36px",
-    background: "-webkit-linear-gradient(top, #fff 0%, #fff 50%, #db3f02 50%, #db3f02 100%)",
-    borderRadius: "22px 22px 0 0",
-    border: "5px solid #4a1c03",
-    borderBottom: "none",
-    position: "relative",
-    boxShadow: "inset 0 0 0 4px #fff",
-    color: "#4a1c03",
-
-    "&:before": {
-        content: `""`,
-        width: "44px",
-        height: "44px",
-        display: "block",
-        position: "absolute",
-        top: "142px",
-        left: "-16px",
-        zIndex: -1, /* Place the bulb under the column */
-        background: "#db3f02",
-        borderRadius: "44px",
-        border: "5px solid #4a1c03",
-        boxShadow: "inset 0 0 0 4px #fff",
-    },
-
-    "&:after": {
-        content: `""`,
-        width: "14px",
-        height: "7px",
-        display: "block",
-        position: "absolute",
-        top: "147px",
-        left: "0px",
-        zIndex: -1,
-        background: "#db3f02",
-    }
-}));
-
 const config = {
 	minTemp: 20,
 	maxTemp: 50,

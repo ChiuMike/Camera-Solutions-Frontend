@@ -1,8 +1,7 @@
 import { Battery } from "./Battery";
-import { Thermometer, Temperature } from "./Thermometer";
+import { Temperature } from "./Thermometer";
 
 export {
     Battery,
-    Thermometer,
     Temperature
 }

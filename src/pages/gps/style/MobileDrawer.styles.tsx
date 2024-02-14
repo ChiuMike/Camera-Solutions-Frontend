@@ -122,7 +122,7 @@ export const MobileDeviceCard = MUI.styled(MUI.Box, {shouldForwardProp: (prop) =
         gridTemplateAreas: `"battery gps temp"`,
         borderRight: '1px solid #e3e3e3',
         "& .MuiTypography-root": {
-            color: selected ? "#FFF" : "#121212",
+            color: "#121212",
             fontWeight: "bold",
             fontSize: "12px",
         },

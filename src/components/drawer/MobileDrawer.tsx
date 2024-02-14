@@ -3,7 +3,7 @@ import * as MUI from "@mui/material";
 import { Global } from "@emotion/react";
 import L from "leaflet";
 import { grey } from "@mui/material/colors";
-
+import * as MuiIcons from "@mui/icons-material/";
 
 export const Puller = MUI.styled(MUI.Box)(({ theme }) => ({
     width: 30,
@@ -15,7 +15,7 @@ export const Puller = MUI.styled(MUI.Box)(({ theme }) => ({
     left: 'calc(50% - 15px)',
 }));
 
-export const PullerBox = MUI.styled(MUI.Box)(({ theme }) => ({
+export const PullerBox = MUI.styled(MUI.Box, { shouldForwardProp: (prop) => prop !== 'puller'})<{puller:boolean}>(({ theme, puller}) => ({
     position: 'absolute',
 	top: -56,
 	visibility: 'visible',
@@ -23,13 +23,18 @@ export const PullerBox = MUI.styled(MUI.Box)(({ theme }) => ({
 	left: 0,
 	backgroundColor: "#fff",
 	borderTopRightRadius: '20px',
-	borderTopLeftRadius: '20px',
+	borderTopLeftRadius: '25px',
+    display: 'flex',
+    flexDirection: !puller ? 'row-reverse' : "row",
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: "0px 6px 0px 0px",
 }));
 
 export const SwipeableDrawer = MUI.styled(MUI.SwipeableDrawer, { shouldForwardProp: (prop) => prop !== 'isOpen' && prop !== 'height'})<{isOpen:boolean; height: number}>(({ theme, isOpen, height }) => ({
-	...(isOpen && {
+    ...(isOpen && {
         '& .MuiDrawer-paper': {
-            height: `${height}px`,
+            height: `${height}px`
         },
     }),
 }));
@@ -84,8 +89,17 @@ const MobileDrawer = (props: MobileDrawerBaseProps) => {
             ref={drawerRef}
             height={height}
         >
-            <PullerBox>
-                {puller ? <Puller /> : <></>}
+            <PullerBox puller={puller}>
+                {
+                    puller ? 
+                    <Puller /> : 
+                    <MUI.IconButton onClick={toggleSwipDrawer}>
+                        {
+                            !swipeOpen ? <MuiIcons.KeyboardDoubleArrowUp /> : <MuiIcons.Close />
+                        }
+                        
+                    </MUI.IconButton>
+                }
                 <MUI.Typography sx={{ p: 2, color: 'text.secondary', fontWeight: 900 }}>{mobileDrawerTitle}</MUI.Typography>
             </PullerBox>
             {renderChildren()}

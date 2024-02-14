@@ -32,7 +32,7 @@ const CarRoute: FC<CarRouteProps> = ({position, timePeriod, selectedIndex, viewR
     const playRef = useRef<any>();
 
     const myRoute = L.Routing.osrmv1({
-        serviceUrl: 'http://localhost:5001/route/v1',
+        serviceUrl: 'http://52.90.227.149:5000/route/v1',
         timeout: 5000,
         profile: 'driving',
     });

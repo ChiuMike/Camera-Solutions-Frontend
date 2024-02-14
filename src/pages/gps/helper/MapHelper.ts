@@ -24,9 +24,14 @@ export const clusterIconLogic = (number: number, clusterColor: string) => {
 }
 
 export const videos = [
-    "/video/driving.mp4",
+    "/video/bike.mp4",
+    "/video/bike2.mp4",
+    "/video/bus_stop.mp4",
+    "/video/cross_road.mp4",
     "/video/driving-on-road.mp4",
     "/video/driving.mp4",
     "/video/girl-run.mp4",
-    "/video/night-car.mp4",
+    "/video/hightway.mp4",
+    "/video/rural.mp4",
+    "/video/rura2.mp4",
 ]

@@ -67,13 +67,6 @@ const RemoteDeviceTable = ({navDrawerOpen, iotDevice, listIotDevices}: RemoteDev
                             onChange={handleInputChange}
                         />
                     </Search>
-                    <MUI.Button 
-                        startIcon={<MuiIcons.FilterAlt />} 
-                        className="filter-btn" 
-                        onClick={toggleSwipDrawer}
-                    >
-                        Filter
-                    </MUI.Button>
                 </MUI.Box>
             </MUI.Box>
             <MUI.Box className="table-container">
